@@ -5,20 +5,19 @@
  */
 package simulador;
 
+import APlanificacion.FCFS;
 import APlanificacion.Prioridad;
 import APlanificacion.Procesos;
-import APlanificacion.ProcesosNodo;
+import APlanificacion.RR;
+import APlanificacion.SSF;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Queue;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Label;
+import javafx.scene.control.RadioButton;
+import javafx.scene.layout.AnchorPane;
 
 /**
  *
@@ -31,23 +30,38 @@ public class FXMLDocumentController implements Initializable {
     
     public static boolean bandera = false;
     @FXML
-    private Label label;
-    
+    private RadioButton FCFS,RR,SSF,PRI,CM;
+    @FXML
+    private AnchorPane menu,simulacion;
     @FXML
     private void handleButtonAction(ActionEvent event) {
-        bandera = !bandera;
-        if(bandera){
-            Procesos pro = new Procesos(4);
-       pro.start();
-        Prioridad pri = new Prioridad();
-        pri.start();
+        Procesos pro = new Procesos(1);
+        if(PRI.isSelected()){
+            pro = new Procesos(2); //Se manda 2 para indicar que se genran procesos con prioridad
+            Prioridad pri = new Prioridad();
+            pri.start();
+        }else if(CM.isSelected()){
+            pro = new Procesos(3);
+        }else if(FCFS.isSelected()){
+            FCFS al = new FCFS();
+        }else if(RR.isSelected()){
+            RR ro = new RR();
+        }else if(SSF.isSelected()){
+            SSF ss = new SSF();
         }
+       bandera = true;
+       pro.start();
         
     }
-    
+    @FXML 
+    public void stop(ActionEvent a){
+        bandera = !bandera;
+    }
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-       
+       menu.setVisible(true);
+       simulacion.setVisible(false);
+               
        
     }    
     
