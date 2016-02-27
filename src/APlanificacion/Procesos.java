@@ -14,16 +14,19 @@ import java.util.Timer;
 import java.util.TimerTask;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import static simulador.FXMLDocumentController.cpu;
+import javafx.scene.control.TableView;
+import simulador.FXMLDocumentController;
 import static simulador.FXMLDocumentController.colaEspera;
+import static simulador.FXMLDocumentController.data;
 import static simulador.FXMLDocumentController.bandera;
+import simulador.Row;
 
 /**
  *
  * @author Javier
  */
 public class Procesos extends Thread {
-
+    TableView tableV;
     final double probabilidad = 0.9502;
     int cont = 0;
     String proceso = "";
@@ -33,8 +36,10 @@ public class Procesos extends Thread {
     /*
     * @param 4 prioridad
     */
-    public Procesos(int opc){
+    public Procesos(int opc,TableView tableV){
         algoritmo = opc;
+        this.tableV =tableV;
+        
     }
     
     public int getThick() {
@@ -48,18 +53,37 @@ public class Procesos extends Thread {
     public int getTiempoLlegada() {
         return cont;
     }
-
+    private void setTabla(int tL, int th, int prioridad){
+        data.add(new Row(tL+"",th+"" , prioridad+""));
+                tableV.setItems(data);
+    }
+     private void setTabla(int tL, int th){
+        data.add(new Row(tL+"",th+""));
+                tableV.setItems(data);
+    }
    
     public String setDatos(double x){
         proceso = "";
         switch(algoritmo){
-            case 4:
-                proceso = getPrioridad() +":"+getTiempoLlegada()+":"+getThick();
+            case 1:
+                int tL1 = getTiempoLlegada();
+                int th1 = getThick();
+                setTabla(tL1, th1);
+                return "";
+            case 2:
+                int prioridad = getPrioridad();
+                int tL = getTiempoLlegada();
+                int th = getThick();
+                setTabla(tL, th,prioridad);
+                proceso =  prioridad+":"+tL+":"+th;
                 colaEspera.add(proceso);
-                Collections.sort(colaEspera, comparator4);
+
+                
+                
+                Collections.sort(colaEspera, comparator);
                 return proceso;
                 
-            case 5:
+            case 3:
                  if(x <= 0.23755){ //procesos del sistema
                     proceso = "sistema";
                 }else if(x <= 0.4750){
@@ -80,11 +104,11 @@ public class Procesos extends Thread {
         Random rand = new Random();
         do {
             Double x = rand.nextDouble();
-            System.out.println("x:"+x);
+            //System.out.println("x:"+x);
             x = truncate(x, 4); //para tener numeros de 4 decimales
             if (x <= probabilidad) {
                 proceso = setDatos(x);
-                 System.out.println("Proceso creado: "+proceso);      
+                 //System.out.println("Proceso creado: "+proceso);      
             }
             try {   
                     Thread.sleep(1000);
@@ -93,7 +117,7 @@ public class Procesos extends Thread {
                     Logger.getLogger(Procesos.class.getName()).log(Level.SEVERE, null, ex);
                 }
         } while (bandera);
-        System.out.println("proceso parado clase Procesos");
+        //System.out.println("proceso parado clase Procesos");
 
     }
 
@@ -112,7 +136,7 @@ public class Procesos extends Thread {
         int randomNum = rand.nextInt((max - min) + 1) + min;
         return randomNum;
     }
-     Comparator<String> comparator4 = new Comparator<String>() {
+     Comparator<String> comparator = new Comparator<String>() {
 		    public int compare(String c1, String c2) {
 		    	String[] a = c1.split(":");
 		    	String[] b = c2.split(":");

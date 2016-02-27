@@ -12,57 +12,94 @@ import APlanificacion.RR;
 import APlanificacion.SSF;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.ResourceBundle;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.RadioButton;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 
 /**
  *
  * @author Javier
  */
-public class FXMLDocumentController implements Initializable {
+public class FXMLDocumentController implements Initializable{
+
     public static ArrayList<String> colaEspera = new ArrayList();
     public static ArrayList<String> cpu = new ArrayList();
-
-    
+    public static ObservableList<Row> data = FXCollections.observableArrayList();
+    Procesos pro ;
     public static boolean bandera = false;
     @FXML
-    private RadioButton FCFS,RR,SSF,PRI,CM;
+    private TextArea txtTe,txtTr,txtP;
     @FXML
-    private AnchorPane menu,simulacion;
+    public TableView tableV;
+    @FXML
+    TableColumn<Row, String> llegada,orden, tCPU, tPri, tTipo, te, tr, p;
+    @FXML
+    private RadioButton FCFS, RR, SSF, PRI, CM;
+    @FXML
+    private AnchorPane menu, simulacion;
+
     @FXML
     private void handleButtonAction(ActionEvent event) {
-        Procesos pro = new Procesos(1);
-        if(PRI.isSelected()){
-            pro = new Procesos(2); //Se manda 2 para indicar que se genran procesos con prioridad
-            Prioridad pri = new Prioridad();
+        pro = new Procesos(1,tableV);
+        boolean b = false;
+        if (PRI.isSelected()) {
+            b = true;
+            tTipo.setVisible(false);
+            pro = new Procesos(2,tableV); //Se manda 2 para indicar que se genran procesos con prioridad
+            Prioridad pri = new Prioridad(tableV,txtTe,txtTr,txtP); //se manda tabla para poner datos
             pri.start();
-        }else if(CM.isSelected()){
-            pro = new Procesos(3);
-        }else if(FCFS.isSelected()){
+        } else if (CM.isSelected()) {
+            b = true;
+            pro = new Procesos(3,tableV);
+        } else if (FCFS.isSelected()) {
+            b = true;
             FCFS al = new FCFS();
-        }else if(RR.isSelected()){
+        } else if (RR.isSelected()) {
+            b = true;
             RR ro = new RR();
-        }else if(SSF.isSelected()){
+        } else if (SSF.isSelected()) {
+            b = true;
             SSF ss = new SSF();
         }
-       bandera = true;
-       pro.start();
-        
+        if(b){
+        bandera = true;
+        pro.start();
+        menu.setVisible(false);
+        simulacion.setVisible(true);
+        }
+
     }
-    @FXML 
-    public void stop(ActionEvent a){
+
+    @FXML
+    public void stop(ActionEvent a) {
         bandera = !bandera;
     }
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-       menu.setVisible(true);
-       simulacion.setVisible(false);
-               
-       
-    }    
-    
+        menu.setVisible(true);
+        simulacion.setVisible(false);
+
+        llegada.setCellValueFactory(cellData -> cellData.getValue().tiempoLlegadaProperty());
+        tCPU.setCellValueFactory(cellData -> cellData.getValue().tiempoRequeridoProperty());
+        tPri.setCellValueFactory(cellData -> cellData.getValue().prioridadProperty());
+        tTipo.setCellValueFactory(cellData -> cellData.getValue().tipoProperty());
+        te.setCellValueFactory(cellData -> cellData.getValue().teProperty());
+        tr.setCellValueFactory(cellData -> cellData.getValue().trProperty());
+        p.setCellValueFactory(cellData -> cellData.getValue().pProperty());
+       orden.setCellValueFactory(cellData -> cellData.getValue().ordenProperty());
+
+    }
+
+
 }

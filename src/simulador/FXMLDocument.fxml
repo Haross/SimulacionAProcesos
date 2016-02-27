@@ -6,7 +6,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane id="AnchorPane" prefHeight="536.0" prefWidth="692.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.65" fx:controller="simulador.FXMLDocumentController">
+<AnchorPane id="AnchorPane" prefHeight="536.0" prefWidth="692.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="simulador.FXMLDocumentController">
     <children>
       <AnchorPane fx:id="menu" prefHeight="536.0" prefWidth="692.0" visible="false">
          <children>
@@ -22,23 +22,31 @@
             <RadioButton fx:id="PRI" layoutX="288.0" layoutY="142.0" mnemonicParsing="false" text="Prioridad" toggleGroup="$algoritmo" />
          </children>
       </AnchorPane>
-      <AnchorPane fx:id="simulacion" prefHeight="536.0" prefWidth="692.0">
+      <AnchorPane fx:id="simulacion" prefHeight="549.0" prefWidth="754.0">
          <children>
-            <ScrollPane layoutX="25.0" layoutY="38.0" prefHeight="247.0" prefWidth="648.0">
+            <ScrollPane layoutX="25.0" layoutY="70.0" prefHeight="268.0" prefWidth="705.0">
                <content>
-                  <TableView prefHeight="245.0" prefWidth="646.0">
+                  <TableView fx:id="tableV" prefHeight="266.0" prefWidth="703.0">
                     <columns>
-                      <TableColumn prefWidth="118.60000610351562" text="Tiempo de llegada" />
-                      <TableColumn minWidth="0.0" prefWidth="114.39996337890625" text="Tiempo en CPU" />
-                        <TableColumn minWidth="0.0" prefWidth="75.0" text="Prioridad" />
-                        <TableColumn minWidth="0.0" prefWidth="106.20001220703125" text="Tipo de proceso" />
-                        <TableColumn minWidth="0.0" prefWidth="83.4000244140625" text="TE" />
-                        <TableColumn minWidth="0.0" prefWidth="61.5999755859375" text="TR" />
-                        <TableColumn minWidth="0.0" prefWidth="84.20001220703125" text="P" />
+                        <TableColumn fx:id="orden" minWidth="0.0" prefWidth="45.53337097167969" text="Orden" />
+                      <TableColumn fx:id="llegada" prefWidth="116.86662292480469" text="Tiempo de llegada" />
+                      <TableColumn fx:id="tCPU" minWidth="0.0" prefWidth="112.13336181640625" text="Tiempo en CPU" />
+                        <TableColumn fx:id="tPri" minWidth="0.0" prefWidth="87.39996337890625" text="Prioridad" />
+                        <TableColumn fx:id="tTipo" minWidth="0.0" prefWidth="115.39999389648438" text="Tipo de proceso" />
+                        <TableColumn fx:id="te" minWidth="0.0" prefWidth="71.5999755859375" text="TE" />
+                        <TableColumn fx:id="tr" minWidth="0.0" prefWidth="51.93328857421875" text="TR" />
+                        <TableColumn fx:id="p" minWidth="0.0" prefWidth="97.66668701171875" text="P" />
                     </columns>
                   </TableView>
                </content>
             </ScrollPane>
+            <Button layoutX="25.0" layoutY="38.0" mnemonicParsing="false" onAction="#stop" text="Parar" />
+            <TextArea fx:id="txtTe" layoutX="160.0" layoutY="385.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="34.0" prefWidth="118.0" />
+            <Label layoutX="33.0" layoutY="389.0" text="Tiempo en espera" />
+            <Label layoutX="25.0" layoutY="493.0" text="Tiempo de penalización" />
+            <Label layoutX="25.0" layoutY="437.0" text="Tiempo de respuesta" />
+            <TextArea fx:id="txtTr" layoutX="160.0" layoutY="433.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="34.0" prefWidth="118.0" />
+            <TextArea fx:id="txtP" layoutX="161.0" layoutY="480.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="34.0" prefWidth="118.0" />
          </children>
       </AnchorPane>
     </children>
