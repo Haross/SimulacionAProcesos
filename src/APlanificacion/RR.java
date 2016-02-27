@@ -9,9 +9,6 @@ package APlanificacion;
  *
  * @author Javier
  */
-public class ProcesosNodo {
-    public int thick;
-    public int prioridad;
-    public int tiempoLlegada;  
-    public String tipo; //sistema,interactivos,eInteractivos, lotes
+public class RR {
+    
 }

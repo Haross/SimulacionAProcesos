@@ -29,6 +29,7 @@ public class Procesos extends Thread {
     String proceso = "";
     int algoritmo;
     
+    
     /*
     * @param 4 prioridad
     */

@@ -6,9 +6,40 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane id="AnchorPane" prefHeight="200" prefWidth="320" xmlns:fx="http://javafx.com/fxml/1" fx:controller="simulador.FXMLDocumentController">
+<AnchorPane id="AnchorPane" prefHeight="536.0" prefWidth="692.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.65" fx:controller="simulador.FXMLDocumentController">
     <children>
-        <Button layoutX="126" layoutY="90" text="Click Me!" onAction="#handleButtonAction" fx:id="button" />
-        <Label layoutX="126" layoutY="120" minHeight="16" minWidth="69" fx:id="label" />
+      <AnchorPane fx:id="menu" prefHeight="536.0" prefWidth="692.0" visible="false">
+         <children>
+              <Button fx:id="button" layoutX="334.0" layoutY="389.0" onAction="#handleButtonAction" text="Iniciar" />
+            <RadioButton fx:id="RR" layoutX="82.0" layoutY="150.0" mnemonicParsing="false" text="Round Robin">
+               <toggleGroup>
+                  <ToggleGroup fx:id="algoritmo" />
+               </toggleGroup>
+            </RadioButton>
+            <RadioButton fx:id="FCFS" layoutX="88.0" layoutY="122.0" mnemonicParsing="false" text="FCFS" toggleGroup="$algoritmo" />
+            <RadioButton fx:id="SSF" layoutX="299.0" layoutY="105.0" mnemonicParsing="false" text="SSF" toggleGroup="$algoritmo" />
+            <RadioButton fx:id="CM" layoutX="473.0" layoutY="130.0" mnemonicParsing="false" text="Colas multinivel" toggleGroup="$algoritmo" />
+            <RadioButton fx:id="PRI" layoutX="288.0" layoutY="142.0" mnemonicParsing="false" text="Prioridad" toggleGroup="$algoritmo" />
+         </children>
+      </AnchorPane>
+      <AnchorPane fx:id="simulacion" prefHeight="536.0" prefWidth="692.0">
+         <children>
+            <ScrollPane layoutX="25.0" layoutY="38.0" prefHeight="247.0" prefWidth="648.0">
+               <content>
+                  <TableView prefHeight="245.0" prefWidth="646.0">
+                    <columns>
+                      <TableColumn prefWidth="118.60000610351562" text="Tiempo de llegada" />
+                      <TableColumn minWidth="0.0" prefWidth="114.39996337890625" text="Tiempo en CPU" />
+                        <TableColumn minWidth="0.0" prefWidth="75.0" text="Prioridad" />
+                        <TableColumn minWidth="0.0" prefWidth="106.20001220703125" text="Tipo de proceso" />
+                        <TableColumn minWidth="0.0" prefWidth="83.4000244140625" text="TE" />
+                        <TableColumn minWidth="0.0" prefWidth="61.5999755859375" text="TR" />
+                        <TableColumn minWidth="0.0" prefWidth="84.20001220703125" text="P" />
+                    </columns>
+                  </TableView>
+               </content>
+            </ScrollPane>
+         </children>
+      </AnchorPane>
     </children>
 </AnchorPane>
