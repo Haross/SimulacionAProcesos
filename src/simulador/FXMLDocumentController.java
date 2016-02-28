@@ -45,7 +45,10 @@ public class FXMLDocumentController implements Initializable{
     private RadioButton FCFS, RR, SJF, PRI, CM;
     @FXML
     private AnchorPane menu, simulacion;
-
+SJF ss;
+RR ro; 
+Prioridad pri;
+FCFS fc;
     @FXML
     private void handleButtonAction(ActionEvent event) {
         pro = new Procesos(1,tableV);
@@ -54,29 +57,28 @@ public class FXMLDocumentController implements Initializable{
             b = true;
             tTipo.setVisible(false);
             pro = new Procesos(4,tableV); //Se manda 2 para indicar que se genran procesos con prioridad
-            Prioridad pri = new Prioridad(tableV,txtTe,txtTr,txtP); //se manda tabla para poner datos
+            pri = new Prioridad(tableV,txtTe,txtTr,txtP); //se manda tabla para poner datos
             pri.start();
         } else if (CM.isSelected()) {
             pro = new Procesos(5,tableV);
             b = true;
-            pro = new Procesos(3,tableV);
         } else if (FCFS.isSelected()) {
             tTipo.setVisible(false);
             tPri.setVisible(false);
             pro = new Procesos(1,tableV);
-            FCFS fc = new FCFS(tableV,txtTe,txtTr,txtP);
+            fc = new FCFS(tableV,txtTe,txtTr,txtP);
             fc.start();
             b = true;
         } else if (RR.isSelected()) {
             b = true;
             pro = new Procesos(2,tableV);
-            RR ro = new RR();
+             ro = new RR();
         } else if (SJF.isSelected()) {
             tTipo.setVisible(false);
             tPri.setVisible(false);
             pro = new Procesos(3,tableV);
             b = true;
-            SJF ss = new SJF(tableV,txtTe,txtTr,txtP);
+             ss = new SJF(tableV,txtTe,txtTr,txtP);
             ss.start();
         }
         if(b){
@@ -91,8 +93,22 @@ public class FXMLDocumentController implements Initializable{
     @FXML
     public void stop(ActionEvent a) {
         bandera = !bandera;
+        if (PRI.isSelected()) {
+            pri.setFinales();
+        } else if (CM.isSelected()) {
+           
+        } else if (FCFS.isSelected()) {
+           
+            fc.setFinales();
+           
+        } else if (RR.isSelected()) {
+           
+             ro = new RR();
+        } else if (SJF.isSelected()) {
+          
+            ss.setFinales();
+        }
     }
-
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         menu.setVisible(true);

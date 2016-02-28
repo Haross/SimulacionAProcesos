@@ -99,7 +99,10 @@ public class SJF extends Thread{
             }      
             
         }while(bandera);
-        System.out.println("t " +t);
+        System.out.println("Hilo terminado");
+    }
+    public void setFinales(){
+         System.out.println("t " +t);
         System.out.println("thick "+thick);
         System.out.println("numP "+numProceso);
         double aux = (double)sumTe/(double)numProceso;
@@ -113,4 +116,6 @@ public class SJF extends Thread{
         System.out.println(aux);
         txtP.setText(aux+"");
     }
+    
+    
 }

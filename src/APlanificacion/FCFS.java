@@ -100,6 +100,9 @@ public class FCFS extends Thread {
             }      
             
         }while(bandera);
+        System.out.println("Hilo terminado");
+    }
+    public void setFinales(){
         double aux = (double)sumTe/(double)numProceso;
         txtTe.setText(aux+"");
         System.out.println("tr "+sumTr);
