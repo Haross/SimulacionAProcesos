@@ -69,21 +69,27 @@ public class Procesos extends Thread {
                 int tL1 = getTiempoLlegada();
                 int th1 = getThick();
                 setTabla(tL1, th1);
+                proceso = tL1+":"+th1;
                 return "";
             case 2:
+               
+                break;
+            case 3:
+                 int tL2 = getTiempoLlegada();
+                int th2 = getThick();
+                setTabla(tL2, th2);
+                proceso = th2+":"+tL2;
+                break;
+            case 4:
                 int prioridad = getPrioridad();
                 int tL = getTiempoLlegada();
                 int th = getThick();
                 setTabla(tL, th,prioridad);
                 proceso =  prioridad+":"+tL+":"+th;
-                colaEspera.add(proceso);
-
+                colaEspera.add(proceso);              
+                break;
                 
-                
-                Collections.sort(colaEspera, comparator);
-                return proceso;
-                
-            case 3:
+            case 5:
                  if(x <= 0.23755){ //procesos del sistema
                     proceso = "sistema";
                 }else if(x <= 0.4750){
@@ -95,7 +101,7 @@ public class Procesos extends Thread {
                 }
                 break;
         }
-        
+        Collections.sort(colaEspera, comparator);
         return "";
         
     }

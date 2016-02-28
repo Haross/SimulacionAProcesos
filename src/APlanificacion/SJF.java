@@ -9,6 +9,6 @@ package APlanificacion;
  *
  * @author Javier
  */
-public class SSF {
+public class SJF {
     
 }

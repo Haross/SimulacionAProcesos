@@ -9,10 +9,9 @@ import APlanificacion.FCFS;
 import APlanificacion.Prioridad;
 import APlanificacion.Procesos;
 import APlanificacion.RR;
-import APlanificacion.SSF;
+import APlanificacion.SJF;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -23,7 +22,6 @@ import javafx.scene.control.RadioButton;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 
 /**
@@ -44,7 +42,7 @@ public class FXMLDocumentController implements Initializable{
     @FXML
     TableColumn<Row, String> llegada,orden, tCPU, tPri, tTipo, te, tr, p;
     @FXML
-    private RadioButton FCFS, RR, SSF, PRI, CM;
+    private RadioButton FCFS, RR, SJF, PRI, CM;
     @FXML
     private AnchorPane menu, simulacion;
 
@@ -55,21 +53,25 @@ public class FXMLDocumentController implements Initializable{
         if (PRI.isSelected()) {
             b = true;
             tTipo.setVisible(false);
-            pro = new Procesos(2,tableV); //Se manda 2 para indicar que se genran procesos con prioridad
+            pro = new Procesos(3,tableV); //Se manda 2 para indicar que se genran procesos con prioridad
             Prioridad pri = new Prioridad(tableV,txtTe,txtTr,txtP); //se manda tabla para poner datos
             pri.start();
         } else if (CM.isSelected()) {
+            pro = new Procesos(5,tableV);
             b = true;
             pro = new Procesos(3,tableV);
         } else if (FCFS.isSelected()) {
+            pro = new Procesos(1,tableV);
             b = true;
             FCFS al = new FCFS();
         } else if (RR.isSelected()) {
             b = true;
+            pro = new Procesos(2,tableV);
             RR ro = new RR();
-        } else if (SSF.isSelected()) {
+        } else if (SJF.isSelected()) {
+            pro = new Procesos(3,tableV);
             b = true;
-            SSF ss = new SSF();
+            SJF ss = new SJF();
         }
         if(b){
         bandera = true;
