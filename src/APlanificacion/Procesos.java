@@ -70,7 +70,7 @@ public class Procesos extends Thread {
                 int th1 = getThick();
                 setTabla(tL1, th1);
                 proceso = tL1+":"+th1;
-                return "";
+                break;
             case 2:
                
                 break;
@@ -86,7 +86,7 @@ public class Procesos extends Thread {
                 int th = getThick();
                 setTabla(tL, th,prioridad);
                 proceso =  prioridad+":"+tL+":"+th;
-                colaEspera.add(proceso);              
+                              
                 break;
                 
             case 5:
@@ -101,6 +101,7 @@ public class Procesos extends Thread {
                 }
                 break;
         }
+        colaEspera.add(proceso);
         Collections.sort(colaEspera, comparator);
         return "";
         
