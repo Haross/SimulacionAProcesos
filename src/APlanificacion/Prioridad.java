@@ -24,7 +24,7 @@ import simulador.Row;
 public class Prioridad extends Thread{
     int t = 0; //almacena todo el tiempo en cpu
     int te = 0;
-    double sumTr=0,sumPe=0;
+    double sumTr=0,sumPe=0,sumTe=0;
     int trespuesta = 0;
     int thick = 1;
     int numProceso = 0;
@@ -91,6 +91,7 @@ public class Prioridad extends Thread{
                 System.out.println("pen: "+trespuesta+" / "+thick+" = "+penalizacion);
                 sumTr += trespuesta;
                 sumPe += penalizacion;
+                sumTe += te;
                 setTabla(split[0],split[1],split[2],te+"",trespuesta+"",penalizacion+"",numProceso+"");
                 t = t+ thick;
                 cpu.add(aux );
@@ -103,7 +104,7 @@ public class Prioridad extends Thread{
             }      
             
         }while(bandera);
-        double aux = ((double)t-(double)thick)/(double)numProceso;
+        double aux = (double)sumTe/(double)numProceso;
         txtTe.setText(aux+"");
         System.out.println("tr "+sumTr);
         aux = (double)sumTr/(double)numProceso;
