@@ -16,7 +16,7 @@ public class Row {
     private final StringProperty tiempoLlegada;
     private final StringProperty tiempoRequerido;
     private final StringProperty prioridad;
-    private final StringProperty tipo;
+    private StringProperty tipo;
     private  StringProperty te;
     private  StringProperty tr;
     private  StringProperty p;
@@ -33,12 +33,13 @@ public class Row {
         this.tiempoLlegada = new SimpleStringProperty(tiempoLlegada);
         this.tiempoRequerido = new SimpleStringProperty(tiempoRequerido);
         this.tipo = new SimpleStringProperty(tipo);
-        this.te = new SimpleStringProperty("N/A");
+        this.te = new SimpleStringProperty(" ");
         this.prioridad = new SimpleStringProperty(prioridad);
-        this.tr = new SimpleStringProperty("N/A");
-        this.p = new SimpleStringProperty("N/A");    
-        this.orden = new SimpleStringProperty("N/A");    
+        this.tr = new SimpleStringProperty(" ");
+        this.p = new SimpleStringProperty(" ");    
+        this.orden = new SimpleStringProperty(" ");    
     }
+    
     /**
      *
      * @param tiempoLlegada
@@ -48,12 +49,12 @@ public class Row {
     public Row(String tiempoLlegada, String tiempoRequerido,String prioridad) {
         this.tiempoLlegada = new SimpleStringProperty(tiempoLlegada);
         this.tiempoRequerido = new SimpleStringProperty(tiempoRequerido);
-        this.tipo = new SimpleStringProperty("N/A");
-        this.te = new SimpleStringProperty("N/A");
+        this.tipo = new SimpleStringProperty(" ");
+        this.te = new SimpleStringProperty(" ");
         this.prioridad = new SimpleStringProperty(prioridad);
-        this.tr = new SimpleStringProperty("N/A");
-        this.p = new SimpleStringProperty("N/A");  
-        this.orden = new SimpleStringProperty("N/A"); 
+        this.tr = new SimpleStringProperty(" ");
+        this.p = new SimpleStringProperty(" ");  
+        this.orden = new SimpleStringProperty(" "); 
     }
     /**
      *
@@ -64,12 +65,12 @@ public class Row {
     public Row(String tiempoLlegada, String tiempoRequerido) {
         this.tiempoLlegada = new SimpleStringProperty(tiempoLlegada);
         this.tiempoRequerido = new SimpleStringProperty(tiempoRequerido);
-        this.tipo = new SimpleStringProperty("N/A");
-        this.te = new SimpleStringProperty("N/A");
-        this.prioridad = new SimpleStringProperty("N/A");
-        this.tr = new SimpleStringProperty("N/A");
-        this.p = new SimpleStringProperty("N/A"); 
-        this.orden = new SimpleStringProperty("N/A"); 
+        this.tipo = new SimpleStringProperty(" ");
+        this.te = new SimpleStringProperty(" ");
+        this.prioridad = new SimpleStringProperty(" ");
+        this.tr = new SimpleStringProperty(" ");
+        this.p = new SimpleStringProperty(" "); 
+        this.orden = new SimpleStringProperty(" "); 
         
     }
     public void setTe(String te){
@@ -84,6 +85,9 @@ public class Row {
      public void setP(String p){
        this.p = new SimpleStringProperty(p); 
     }
+    public void setTipo(String tipo){
+        this.tipo = new SimpleStringProperty(tipo);
+    }
     public String getTiempoLlegada(){
        return tiempoLlegada.get();
     }
@@ -92,6 +96,9 @@ public class Row {
     }
     public String getPrioridad(){
        return prioridad.get();
+    }
+    public String getTipo(){
+       return tipo.get();
     }
     public StringProperty tiempoLlegadaProperty() {
         return tiempoLlegada;

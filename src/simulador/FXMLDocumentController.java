@@ -5,6 +5,7 @@
  */
 package simulador;
 
+import APlanificacion.ColasMulti;
 import APlanificacion.FCFS;
 import APlanificacion.Prioridad;
 import APlanificacion.Procesos;
@@ -30,7 +31,10 @@ import javafx.scene.layout.AnchorPane;
  */
 public class FXMLDocumentController implements Initializable{
 
-    public static ArrayList<String> colaEspera = new ArrayList();
+    public static ArrayList<String> colaEspera = new ArrayList(); //sistema
+    public static ArrayList<String> colaEspera2 = new ArrayList(); //interactivos
+    public static ArrayList<String> colaEspera3 = new ArrayList(); //edición interactivos
+    public static ArrayList<String> colaEspera4 = new ArrayList(); //lotes
     public static ArrayList<String> cpu = new ArrayList();
     public static ObservableList<Row> data = FXCollections.observableArrayList();
     Procesos pro ;
@@ -49,6 +53,7 @@ SJF ss;
 RR ro; 
 Prioridad pri;
 FCFS fc;
+ColasMulti cm;
     @FXML
     private void handleButtonAction(ActionEvent event) {
         pro = new Procesos(1,tableV);
@@ -56,11 +61,14 @@ FCFS fc;
         if (PRI.isSelected()) {
             b = true;
             tTipo.setVisible(false);
-            pro = new Procesos(4,tableV); //Se manda 2 para indicar que se genran procesos con prioridad
+            pro = new Procesos(4,tableV); //Se manda 4 para indicar que se genran procesos con prioridad
             pri = new Prioridad(tableV,txtTe,txtTr,txtP); //se manda tabla para poner datos
             pri.start();
         } else if (CM.isSelected()) {
+            tPri.setVisible(false);
             pro = new Procesos(5,tableV);
+            cm = new ColasMulti(tableV,txtTe,txtTr,txtP);
+            cm.start();
             b = true;
         } else if (FCFS.isSelected()) {
             tTipo.setVisible(false);
@@ -96,16 +104,12 @@ FCFS fc;
         if (PRI.isSelected()) {
             pri.setFinales();
         } else if (CM.isSelected()) {
-           
-        } else if (FCFS.isSelected()) {
-           
-            fc.setFinales();
-           
-        } else if (RR.isSelected()) {
-           
+           cm.setFinales();
+        } else if (FCFS.isSelected()) {           
+            fc.setFinales();        
+        } else if (RR.isSelected()) {         
              ro = new RR();
-        } else if (SJF.isSelected()) {
-          
+        } else if (SJF.isSelected()) {         
             ss.setFinales();
         }
     }
