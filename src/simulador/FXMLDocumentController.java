@@ -72,9 +72,12 @@ public class FXMLDocumentController implements Initializable{
             pro = new Procesos(2,tableV);
             RR ro = new RR();
         } else if (SJF.isSelected()) {
+            tTipo.setVisible(false);
+            tPri.setVisible(false);
             pro = new Procesos(3,tableV);
             b = true;
-            SJF ss = new SJF();
+            SJF ss = new SJF(tableV,txtTe,txtTr,txtP);
+            ss.start();
         }
         if(b){
         bandera = true;
