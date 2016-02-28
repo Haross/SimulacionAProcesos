@@ -61,9 +61,12 @@ public class FXMLDocumentController implements Initializable{
             b = true;
             pro = new Procesos(3,tableV);
         } else if (FCFS.isSelected()) {
+            tTipo.setVisible(false);
+            tPri.setVisible(false);
             pro = new Procesos(1,tableV);
+            FCFS fc = new FCFS(tableV,txtTe,txtTr,txtP);
+            fc.start();
             b = true;
-            FCFS al = new FCFS();
         } else if (RR.isSelected()) {
             b = true;
             pro = new Procesos(2,tableV);

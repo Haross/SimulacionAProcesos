@@ -10,70 +10,103 @@ package APlanificacion;
  * @author Javier
  */
 import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javafx.scene.control.TableView;
+import javafx.scene.control.TextArea;
+import static simulador.FXMLDocumentController.bandera;
+import static simulador.FXMLDocumentController.colaEspera;
+import static simulador.FXMLDocumentController.cpu;
+import static simulador.FXMLDocumentController.data;
+import simulador.Row;
+
 public class FCFS extends Thread {
-    float E;
-    float R;
-    float P;
-
-	@Override
-    public void run() {
-		int datos[] ={3,5,2,5,5};
-		int llegada[]={0,1,3,9,12};
-		char proceso[]={'A','B','C','D','E'};
-		FCFS fc= new FCFS();
-		fc.calcula(datos, llegada, proceso);
-		System.out.println("\nTiempo de espera total: " +fc.getE());
-		System.out.println("\nTiempo de Respuesta total: "+fc.getT());
-		System.out.println("\nTiempo de Proporción de penalizacion total: "+fc.getP());
-	}
-
-	public void calcula(int[] datos, int[] llegada, char[] proceso){
-		float[] tE=new float[datos.length];
-		float e[]= new float[datos.length];
-		float tR[]= new float[datos.length];
-		float pP[]= new float[datos.length];
-		E=0;
-		R=0;
-		P=0;
-		tE[0]=llegada[0];
-
-		
-		//System.out.print("\n\nTiempo de espera gant es: "+tE[0]);
-		e[0]=tE[0]-llegada[0];
-		System.out.print("\nTiempo de Espera de "+proceso[0]+" : "+e[0]+" ms \t");
-		tR[0]=e[0]+datos[0];
-		pP[0]=tR[0]/datos[0];
-		System.out.println("\nTiempo de Respuesta de "+proceso[0]+" : "+tR[0]+" ms");
-		System.out.println("Proporcion de penalizacion de "+proceso[0]+" : "+pP[0]+" ms");
-		for (int i=1; i<datos.length ;i++ ) {
-			tE[i]=tE[i-1]+datos[i-1];
-			
-		//	System.out.print("\nTiempo de Espera gant "+(i+1)+" : "+tE[i]+" ms \t");
-			e[i]=tE[i]-llegada[i];
-			System.out.print("\nTiempo de Espera de "+proceso[0]+" : "+e[i]+" ms \t");
-			tR[i]=e[i]+datos[i];
-			System.out.println("\nTiempo de Respuesta de "+proceso[0]+" : "+tR[i]+" ms \t");
-			pP[i]=(tR[i]/datos[i]);
-			System.out.println("Proporción de penalizacion de "+proceso[0]+" : "+pP[i]+" ms \t");
-			E=E+e[i];
-			R=R+tR[i];
-			P=P+pP[i];
-
-		}
-		E=E/datos.length;
-		R=(R+tR[0])/datos.length;
-		P=(P+pP[0])/datos.length;
-	}
-
-	public float getE(){
-		return E;
-	}
-
-	public float getT(){
-		return R;
-	}
-
-	public float getP(){
-		return P;
-	}
+    int t = 0; //almacena todo el tiempo en cpu
+    int te = 0;
+    double sumTr=0,sumPe=0;
+    int trespuesta = 0;
+    int thick = 1;
+    int numProceso = 0;
+    double penalizacion = 0;
+    TableView tableV;
+    TextArea txtTe,txtTr,txtP;
+    public FCFS(){
+        
+    }
+   public FCFS(TableView tableV,TextArea txtTe,TextArea  txtTr,TextArea txtP){
+       this.tableV = tableV;
+       this.txtP = txtP;
+       this.txtTe = txtTe;
+       this.txtTr = txtTr;
+   }
+   private void setTabla(String tL,String tR,String te,String tRespuesta,String penali,String or){
+       Row aux = new Row(tL,tR);  
+       
+       for (int i = 0; i < data.size(); i++) {
+            
+            if(tL.equals(data.get(i).getTiempoLlegada()) && 
+                    tR.equals(data.get(i).getTiempoRequerido())){
+               
+                aux.setTe(te);
+                aux.setTr(tRespuesta);
+                aux.setP(penali);
+                aux.setOrden(or);
+                data.remove(i);
+                data.add(i,aux);
+                return;
+            }
+            
+        }   
+        
+   }
+   
+   private String getTiempoEspera(int tiempoL){
+       te = t - tiempoL;
+       if(te * -1 >=0){
+           te = -1 * te;
+           return -te+"";
+       }
+       return te+"";
+   }
+   
+    @Override
+    public void run(){
+        System.out.println("corriendo");
+        do{
+            if(!colaEspera.isEmpty()){   
+                numProceso++;
+                String aux = colaEspera.remove(0);
+                String[] split = aux.split(":");
+                thick = Integer.parseInt(split[1]); //tiempo requerido
+                
+                int tiempoL = Integer.parseInt(split[0]); //tiempo llegada
+       
+                trespuesta = t - tiempoL + thick;
+                getTiempoEspera(tiempoL);                
+                penalizacion = (double)trespuesta/(double)thick;
+                System.out.println("pen: "+trespuesta+" / "+thick+" = "+penalizacion);
+                sumTr += trespuesta;
+                sumPe += penalizacion;
+                setTabla(split[0],split[1],te+"",trespuesta+"",penalizacion+"",numProceso+"");
+                t = t+ thick;
+                cpu.add(aux );
+      
+            }             
+            try {
+                Thread.sleep(1000 * thick);
+            } catch (InterruptedException ex) {
+                Logger.getLogger(Prioridad.class.getName()).log(Level.SEVERE, null, ex);
+            }      
+            
+        }while(bandera);
+        double aux = ((double)t-(double)thick)/(double)numProceso;
+        txtTe.setText(aux+"");
+        System.out.println("tr "+sumTr);
+        aux = (double)sumTr/(double)numProceso;
+        txtTr.setText(aux+"");
+     
+        aux = (double)sumPe/(double)numProceso;
+        System.out.println(aux);
+        txtP.setText(aux+"");
+    }
 }
