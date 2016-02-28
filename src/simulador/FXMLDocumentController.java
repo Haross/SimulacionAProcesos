@@ -53,7 +53,7 @@ public class FXMLDocumentController implements Initializable{
         if (PRI.isSelected()) {
             b = true;
             tTipo.setVisible(false);
-            pro = new Procesos(3,tableV); //Se manda 2 para indicar que se genran procesos con prioridad
+            pro = new Procesos(4,tableV); //Se manda 2 para indicar que se genran procesos con prioridad
             Prioridad pri = new Prioridad(tableV,txtTe,txtTr,txtP); //se manda tabla para poner datos
             pri.start();
         } else if (CM.isSelected()) {

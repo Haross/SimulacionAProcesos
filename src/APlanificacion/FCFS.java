@@ -10,12 +10,13 @@ package APlanificacion;
  * @author Javier
  */
 import java.util.Scanner;
-public class FCFS {
+public class FCFS extends Thread {
     float E;
-		float R;
-		float P;
+    float R;
+    float P;
 
-	public static void main(String[] args) {
+	@Override
+    public void run() {
 		int datos[] ={3,5,2,5,5};
 		int llegada[]={0,1,3,9,12};
 		char proceso[]={'A','B','C','D','E'};
