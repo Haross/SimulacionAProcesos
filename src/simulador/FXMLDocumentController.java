@@ -26,6 +26,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.text.Text;
 
 /**
  *
@@ -43,6 +44,8 @@ public class FXMLDocumentController implements Initializable{
     public static ObservableList<Row> data2 = FXCollections.observableArrayList();
     Procesos pro ;
     public static boolean bandera = false;
+    @FXML 
+    private Text txt;
     @FXML
     private TextArea txtTe,txtTr,txtP;
     @FXML
@@ -62,6 +65,14 @@ RR ro;
 Prioridad pri;
 FCFS fc;
 ColasMulti cm;
+
+@FXML
+private void seleccionado(){
+    if (RR.isSelected()){
+        txt.setVisible(true);
+        txtQ.setVisible(true);
+    }
+}
     @FXML
     private void handleButtonAction(ActionEvent event) {
         pro = new Procesos(1,tableV);
