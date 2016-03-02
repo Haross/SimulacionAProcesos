@@ -98,12 +98,13 @@ public class Procesos extends Thread {
                     proceso += ":sistema";
                     colaEspera.add(proceso);
                 } else if (x <= 0.4750) {
-                    setTabla(tL, th,"Interactivos");
-                    proceso += ":interactivos";
-                    colaEspera2.add(proceso);
+                     int prioridad1 = getPrioridad();
+                    setTabla(tL, th, prioridad1);
+                    proceso = prioridad1 + ":" + tL + ":" + th;
+                        colaEspera2.add(proceso);
                 } else if (x <= 0.7125) {
-                    setTabla(tL, th,"E. Interactivos");
-                    proceso += ":eInteractivos";
+                     setTabla(tL, th);
+                     proceso = th + ":" + tL;
                     colaEspera3.add(proceso);
                 } else {
                     setTabla(tL, th,"Lotes");

@@ -150,7 +150,8 @@ ColasMulti cm;
         } else if (FCFS.isSelected()) {           
             fc.setFinales();        
         } else if (RR.isSelected()) {         
-             ro = new RR();
+            ro.setFinales();
+             
         } else if (SJF.isSelected()) {         
             ss.setFinales();
         }

@@ -72,7 +72,7 @@ public class ColasMulti extends Thread {
    public void setTiempos(int tiempoL){
        numProceso++;
        trespuesta = t - tiempoL + thick;
-                getTiempoEspera(tiempoL);                
+        getTiempoEspera(tiempoL);                
                 penalizacion = (double)trespuesta/(double)thick;
                 System.out.println("pen: "+trespuesta+" / "+thick+" = "+penalizacion);
                 sumTr += trespuesta;
@@ -99,16 +99,16 @@ public class ColasMulti extends Thread {
                 System.out.println("Cola: interactivos");
                 String aux = colaEspera2.remove(0);
                 String[] split = aux.split(":");
-                thick = Integer.parseInt(split[1]); //tiempo requerido                
-                int tiempoL = Integer.parseInt(split[0]); //tiempo llegada
+                thick = Integer.parseInt(split[2]); //tiempo requerido               
+                int tiempoL = Integer.parseInt(split[1]); //tiempo llegada
                 cpu.add(aux );
                 setTiempos(tiempoL);
             }else if(!colaEspera3.isEmpty()){
                 System.out.println("Cola: edición interactivos");
                 String aux = colaEspera3.remove(0);
                 String[] split = aux.split(":");
-                thick = Integer.parseInt(split[1]); //tiempo requerido                
-                int tiempoL = Integer.parseInt(split[0]); //tiempo llegada
+                 thick = Integer.parseInt(split[0]); //tiempo requerido              
+                int tiempoL = Integer.parseInt(split[1]); //tiempo llegada
                 cpu.add(aux );
                 setTiempos(tiempoL);
                 
