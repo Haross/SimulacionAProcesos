@@ -21,6 +21,8 @@ public class Row {
     private  StringProperty tr;
     private  StringProperty p;
     private StringProperty orden;
+    private StringProperty tRestante;
+     private StringProperty tSali;
     
     /**
      *
@@ -76,6 +78,9 @@ public class Row {
     public void setTe(String te){
        this.te = new SimpleStringProperty(te); 
     }
+    public void setTSali(String tSali){
+       this.tSali = new SimpleStringProperty(tSali); 
+    }
     public void setOrden(String orden){
         this.orden = new SimpleStringProperty(orden);  
     }
@@ -88,8 +93,14 @@ public class Row {
     public void setTipo(String tipo){
         this.tipo = new SimpleStringProperty(tipo);
     }
+   public void setTiempoRestante(String tRestante){
+        this.tRestante= new SimpleStringProperty(tRestante);
+    }
     public String getTiempoLlegada(){
        return tiempoLlegada.get();
+    }
+    public String getTiempoRestante(){
+       return tRestante.get();
     }
     public String getTiempoRequerido(){
        return tiempoRequerido.get();
@@ -106,6 +117,9 @@ public class Row {
     public StringProperty tiempoRequeridoProperty() {
         return tiempoRequerido;
     }
+    public StringProperty tSaliProperty() {
+        return tSali;
+    }
     public StringProperty prioridadProperty() {
         return prioridad;
     }
@@ -114,6 +128,9 @@ public class Row {
     }
     public StringProperty teProperty() {
         return te;
+    }
+    public StringProperty tRestanteProperty() {
+        return tRestante;
     }
     public StringProperty trProperty() {
         return tr;

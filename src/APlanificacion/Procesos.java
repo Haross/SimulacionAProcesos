@@ -21,7 +21,8 @@ import simulador.Row;
 public class Procesos extends Thread {
 
     TableView tableV;
-    final double probabilidad = 0.9502;
+    //final double probabilidad = 0.9502;
+    final double probabilidad = 0.7;
     int cont = 0;
     String proceso = "";
     int algoritmo;
@@ -49,12 +50,19 @@ public class Procesos extends Thread {
     }
 
     private void setTabla(int tL, int th) {
+        try{
         data.add(new Row(tL + "", th + ""));
         tableV.setItems(data);
+        }catch(Exception  e){
+            System.out.println("Cacth");
+             data.add(new Row(tL + "", th + ""));
+        tableV.setItems(data);
+            System.out.println("se añadio ");
+        }
     }
       private void setTabla(int tL, int th,String tipo) {
-          Row aux = new Row(tL + "", th + "");
-          aux.setTipo(tipo);
+        Row aux = new Row(tL + "", th + "");
+        aux.setTipo(tipo);
         data.add(aux);
         tableV.setItems(data);
     }
@@ -68,9 +76,11 @@ public class Procesos extends Thread {
                 setTabla(tL, th);
                 proceso = tL + ":" + th;
                 break;
-            case 2:
-
-                break;
+            case 2: //RR
+                setTabla(tL, th);
+                proceso = tL + ":" + th+":N:N:N";
+                colaEspera.add(proceso);
+                return proceso;
             case 3: //SJF
                 setTabla(tL, th);
                 proceso = th + ":" + tL;
@@ -117,9 +127,11 @@ public class Procesos extends Thread {
             if (x <= probabilidad) {
                 proceso = setDatos(x);
                 //System.out.println("Proceso creado: "+proceso);      
+            }else{
+                tableV.setItems(data);
             }
             try {
-                Thread.sleep(1000);
+                Thread.sleep(2000);
                 cont++;
             } catch (InterruptedException ex) {
                 Logger.getLogger(Procesos.class.getName()).log(Level.SEVERE, null, ex);

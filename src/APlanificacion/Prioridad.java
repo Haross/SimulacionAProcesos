@@ -77,14 +77,16 @@ public class Prioridad extends Thread{
         
    }
    
-   private String getTiempoEspera(int tiempoL){
-       te = t - tiempoL;
-       if(te * -1 >=0){
-           te = -1 * te;
-           return -te+"";
-       }
-       return te+"";
-   }
+   private String getTiempoEspera(int tiempoL) {
+        te = t - tiempoL;
+        System.out.println("Metetod getTE:"+te);
+        if (te <= 0) {
+            te = 0;
+            System.out.println("negativo"+te);
+            return 0 +""; 
+        }
+        return te + "";
+    }
    
      private void setTablaCPU(String tL, String th, String prioridad) {
          tableCPU.getItems().clear();

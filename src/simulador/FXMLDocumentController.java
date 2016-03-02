@@ -13,6 +13,7 @@ import APlanificacion.RR;
 import APlanificacion.SJF;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -23,6 +24,7 @@ import javafx.scene.control.RadioButton;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 
 /**
@@ -37,14 +39,20 @@ public class FXMLDocumentController implements Initializable{
     public static ArrayList<String> colaEspera4 = new ArrayList(); //lotes
     public static ArrayList<String> cpu = new ArrayList();
     public static ObservableList<Row> data = FXCollections.observableArrayList();
+    public static ObservableList<Row> data1 = FXCollections.observableArrayList();
+    public static ObservableList<Row> data2 = FXCollections.observableArrayList();
     Procesos pro ;
     public static boolean bandera = false;
     @FXML
     private TextArea txtTe,txtTr,txtP;
     @FXML
-    public TableView tableV;
+    private TextField txtQ;
     @FXML
-    TableColumn<Row, String> llegada,orden, tCPU, tPri, tTipo, te, tr, p;
+    public TableView tableV,tableCPU,tableSalida;
+    @FXML
+    TableColumn<Row, String> llegada,orden, tCPU, tPri,tSali, tTipo,tRestante, te, tr, p,
+            llegada11,orden11, tCPU11, tPri11, tTipo11, te11, tr11, p11,
+            llegada1,orden1, tCPU1, tPri1, tTipo1, te1, tr1, p1;
     @FXML
     private RadioButton FCFS, RR, SJF, PRI, CM;
     @FXML
@@ -61,40 +69,74 @@ ColasMulti cm;
         if (PRI.isSelected()) {
             b = true;
             tTipo.setVisible(false);
+            tTipo1.setVisible(false);
+            tTipo11.setVisible(false);
             pro = new Procesos(4,tableV); //Se manda 4 para indicar que se genran procesos con prioridad
-            pri = new Prioridad(tableV,txtTe,txtTr,txtP); //se manda tabla para poner datos
+            pri = new Prioridad(tableV,tableCPU,tableSalida,txtTe,txtTr,txtP); //se manda tabla para poner datos
             pri.start();
+                bandera = true;
+        pro.start();
+        menu.setVisible(false);
+        simulacion.setVisible(true);
         } else if (CM.isSelected()) {
             tPri.setVisible(false);
+            tPri11.setVisible(false);
+            tPri1.setVisible(false);
             pro = new Procesos(5,tableV);
             cm = new ColasMulti(tableV,txtTe,txtTr,txtP);
             cm.start();
-            b = true;
+            bandera = true;
+        pro.start();
+        menu.setVisible(false);
+        simulacion.setVisible(true);
         } else if (FCFS.isSelected()) {
             tTipo.setVisible(false);
             tPri.setVisible(false);
+            tTipo1.setVisible(false);
+            tPri1.setVisible(false);
+            tTipo11.setVisible(false);
+            tPri11.setVisible(false);
             pro = new Procesos(1,tableV);
-            fc = new FCFS(tableV,txtTe,txtTr,txtP);
+            fc = new FCFS(tableV,tableCPU,tableSalida,txtTe,txtTr,txtP);
             fc.start();
-            b = true;
+               bandera = true;
+        pro.start();
+        menu.setVisible(false);
+        simulacion.setVisible(true);
         } else if (RR.isSelected()) {
-            b = true;
+       tTipo.setVisible(false);
+            tPri.setVisible(false);
+            tTipo1.setVisible(false);
+            tPri1.setVisible(false);
+            tTipo11.setVisible(false);
+            tPri11.setVisible(false);
             pro = new Procesos(2,tableV);
-             ro = new RR();
+            //validar solo numeros
+            int quantum = Integer.parseInt(txtQ.getText());
+             ro = new RR(quantum,tableV,tableCPU,tableSalida,txtTe,txtTr,txtP);
+              bandera = true;
+             ro.start();
+              
+        pro.start();
+        menu.setVisible(false);
+        simulacion.setVisible(true);
         } else if (SJF.isSelected()) {
             tTipo.setVisible(false);
             tPri.setVisible(false);
+            tTipo1.setVisible(false);
+            tPri1.setVisible(false);
+            tTipo11.setVisible(false);
+            tPri11.setVisible(false);
             pro = new Procesos(3,tableV);
-            b = true;
-             ss = new SJF(tableV,txtTe,txtTr,txtP);
+ 
+             ss = new SJF(tableV,tableCPU,tableSalida,txtTe,txtTr,txtP);
             ss.start();
-        }
-        if(b){
-        bandera = true;
+                bandera = true;
         pro.start();
         menu.setVisible(false);
         simulacion.setVisible(true);
         }
+  
 
     }
 
@@ -112,6 +154,7 @@ ColasMulti cm;
         } else if (SJF.isSelected()) {         
             ss.setFinales();
         }
+       
     }
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -123,11 +166,29 @@ ColasMulti cm;
         tPri.setCellValueFactory(cellData -> cellData.getValue().prioridadProperty());
         tTipo.setCellValueFactory(cellData -> cellData.getValue().tipoProperty());
         te.setCellValueFactory(cellData -> cellData.getValue().teProperty());
+          tSali.setCellValueFactory(cellData -> cellData.getValue().tSaliProperty());
         tr.setCellValueFactory(cellData -> cellData.getValue().trProperty());
         p.setCellValueFactory(cellData -> cellData.getValue().pProperty());
        orden.setCellValueFactory(cellData -> cellData.getValue().ordenProperty());
+       tRestante.setCellValueFactory(cellData -> cellData.getValue().tRestanteProperty());
+        llegada11.setCellValueFactory(cellData -> cellData.getValue().tiempoLlegadaProperty());
+        tCPU11.setCellValueFactory(cellData -> cellData.getValue().tiempoRequeridoProperty());
+        tPri11.setCellValueFactory(cellData -> cellData.getValue().prioridadProperty());
+        tTipo11.setCellValueFactory(cellData -> cellData.getValue().tipoProperty());
+        te11.setCellValueFactory(cellData -> cellData.getValue().teProperty());
+        tr11.setCellValueFactory(cellData -> cellData.getValue().trProperty());
+        p11.setCellValueFactory(cellData -> cellData.getValue().pProperty());
+       orden11.setCellValueFactory(cellData -> cellData.getValue().ordenProperty());
+
+        llegada1.setCellValueFactory(cellData -> cellData.getValue().tiempoLlegadaProperty());
+        tCPU1.setCellValueFactory(cellData -> cellData.getValue().tiempoRequeridoProperty());
+        tPri1.setCellValueFactory(cellData -> cellData.getValue().prioridadProperty());
+        tTipo1.setCellValueFactory(cellData -> cellData.getValue().tipoProperty());
+        te1.setCellValueFactory(cellData -> cellData.getValue().teProperty());
+        tr1.setCellValueFactory(cellData -> cellData.getValue().trProperty());
+        p1.setCellValueFactory(cellData -> cellData.getValue().pProperty());
+       orden1.setCellValueFactory(cellData -> cellData.getValue().ordenProperty());
 
     }
-
 
 }
