@@ -5,7 +5,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane id="AnchorPane" prefHeight="654.0" prefWidth="967.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="simulador.FXMLDocumentController">
+<AnchorPane id="AnchorPane" prefHeight="654.0" prefWidth="967.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="simulador.FXMLDocumentController">
     <children>
       <AnchorPane fx:id="menu" prefHeight="654.0" prefWidth="1061.0">
          <children>
@@ -29,7 +29,7 @@
                <font>
                   <Font name="System Bold" size="14.0" />
                </font></RadioButton>
-            <RadioButton fx:id="CM" layoutX="828.0" layoutY="263.0" mnemonicParsing="false" text="Colas multinivel" toggleGroup="$algoritmo">
+            <RadioButton fx:id="CM" layoutX="828.0" layoutY="263.0" mnemonicParsing="false" onAction="#seleccionadoC" text="Colas multinivel" toggleGroup="$algoritmo">
                <font>
                   <Font name="System Bold" size="14.0" />
                </font></RadioButton>

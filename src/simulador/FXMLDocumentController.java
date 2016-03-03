@@ -73,6 +73,13 @@ private void seleccionado(){
         txtQ.setVisible(true);
     }
 }
+@FXML
+private void seleccionadoC(){
+    if (CM.isSelected()){
+        txt.setVisible(true);
+        txtQ.setVisible(true);
+    }
+}
     @FXML
     private void handleButtonAction(ActionEvent event) {
         pro = new Procesos(1,tableV);
@@ -90,11 +97,13 @@ private void seleccionado(){
         menu.setVisible(false);
         simulacion.setVisible(true);
         } else if (CM.isSelected()) {
+            
             tPri.setVisible(false);
             tPri11.setVisible(false);
             tPri1.setVisible(false);
             pro = new Procesos(5,tableV);
              //validar solo numeros
+
             int quantum = Integer.parseInt(txtQ.getText());
             ro = new RR(colaEspera,quantum,tableV,tableCPU,tableSalida,txtTe,txtTr,txtP);
             fc = new FCFS(colaEspera4,tableV,tableCPU,tableSalida,txtTe,txtTr,txtP);
