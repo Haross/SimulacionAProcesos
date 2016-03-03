@@ -48,7 +48,13 @@ public class Procesos extends Thread {
         data.add(new Row(tL + "", th + "", prioridad + ""));
         tableV.setItems(data);
     }
-
+     private void setTablaTipo(int tL, int th, int prioridad,String tipo) {
+         Row aux = new Row(tL + "", th + "", prioridad + "");
+         aux.setTipo(tipo);
+        data.add(aux);
+        
+        tableV.setItems(data);
+    }
     private void setTabla(int tL, int th) {
         try{
         data.add(new Row(tL + "", th + ""));
@@ -91,24 +97,27 @@ public class Procesos extends Thread {
                 proceso = prioridad + ":" + tL + ":" + th;
                 break;
             case 5:
-                
+                Random rand = new Random();
+                Double x1 = rand.nextDouble();
                 proceso = tL + ":" + th;
-                if (x <= 0.23755) { //procesos del sistema
-                    setTabla(tL, th,"Sistema");
-                    proceso += ":sistema";
-                    colaEspera.add(proceso);
-                } else if (x <= 0.4750) {
+                if (x1 <= 0.25) { //procesos del sistema
+                   setTabla(tL, th,"Sistema");
+                proceso = tL + ":" + th+":N:N:N:Sistema";
+                colaEspera.add(proceso);
+                return proceso;
+                } else if (x1 <= 0.50) {
                      int prioridad1 = getPrioridad();
-                    setTabla(tL, th, prioridad1);
-                    proceso = prioridad1 + ":" + tL + ":" + th;
+                    setTablaTipo(tL, th, prioridad1,"Interactivos");
+                    proceso = prioridad1 + ":" + tL + ":" + th+":Interactivos";
                         colaEspera2.add(proceso);
-                } else if (x <= 0.7125) {
-                     setTabla(tL, th);
-                     proceso = th + ":" + tL;
+                } else if (x1 <= 0.75) {
+                    setTabla(tL, th,"E interactivos");
+                    proceso = th + ":" + tL+":E interactivos";
                     colaEspera3.add(proceso);
                 } else {
-                    setTabla(tL, th,"Lotes");
-                    proceso += ":lotes";
+                     setTabla(tL, th,"Lotes");
+                    proceso = tL + ":" + th+":Lotes";
+                    
                     colaEspera4.add(proceso);
                 }
                 return proceso;

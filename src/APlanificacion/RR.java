@@ -109,7 +109,6 @@ public class RR extends Thread {
         colaEspera.add(proceso);
         tableV.setItems(data);
         return;
-
     }
 
     
@@ -117,9 +116,7 @@ public class RR extends Thread {
     
     @Override
     public void run() {
-int tiempoSalida =0;
-                int tiempoRestante =0;
-                int tiempoE = 0;
+
         do{
             String proceso = "";
             int tRes = 0;
@@ -142,7 +139,7 @@ int tiempoSalida =0;
                        thick = quantum;
                        completo = false;
                     } 
-                    tiempoE = Integer.parseInt(split[3]);//** te
+                  
                     
                 }else{
                     if(thick > quantum){

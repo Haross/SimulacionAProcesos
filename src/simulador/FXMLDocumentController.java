@@ -83,7 +83,9 @@ ColasMulti cm;
             tPri11.setVisible(false);
             tPri1.setVisible(false);
             pro = new Procesos(5,tableV);
-            cm = new ColasMulti(tableV,txtTe,txtTr,txtP);
+             //validar solo numeros
+            int quantum = Integer.parseInt(txtQ.getText());
+            cm = new ColasMulti(quantum,tableV,tableCPU,tableSalida,txtTe,txtTr,txtP);
             cm.start();
             bandera = true;
         pro.start();
