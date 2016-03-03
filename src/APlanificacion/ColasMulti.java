@@ -1,15 +1,12 @@
 
 package APlanificacion;
 
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import static simulador.FXMLDocumentController.bandera;
-import static simulador.FXMLDocumentController.colaEspera2;
-import static simulador.FXMLDocumentController.colaEspera3;
-import static simulador.FXMLDocumentController.colaEspera4;
-import static simulador.FXMLDocumentController.colaEspera;
 import static simulador.FXMLDocumentController.cpu;
 import static simulador.FXMLDocumentController.data;
 import static simulador.FXMLDocumentController.data1;
@@ -36,7 +33,7 @@ public class ColasMulti extends Thread {
     SJF sjf;
     FCFS fcfs;
     RR robin;
-    
+    ArrayList<String> colaEspera,colaEspera2,colaEspera3,colaEspera4;
     public ColasMulti(){
         
     }
@@ -52,11 +49,17 @@ public class ColasMulti extends Thread {
         this.fcfs = fcfs;
         this.robin = robin;
     }
-   
+   public void setColas(ArrayList<String> colaEspera,ArrayList<String> colaEspera2,ArrayList<String> colaEspera3,ArrayList<String> colaEspera4){
+       this.colaEspera = colaEspera;
+       this.colaEspera4 = colaEspera4;
+       this.colaEspera2 = colaEspera2;
+       this.colaEspera3 = colaEspera3;
+   }
     @Override
     public void run(){
        
         do{
+            System.out.println("corriendo");
              while(colaEspera.isEmpty() && colaEspera2.isEmpty()&& colaEspera3.isEmpty()&& colaEspera4.isEmpty()){
             
         }   
@@ -93,9 +96,7 @@ public class ColasMulti extends Thread {
         System.out.println(aux);
         txtP.setText(aux+"");
     }
-    /*
-    *SJF Y FCFS
-    */
+
 
 }
 

@@ -107,9 +107,10 @@ private void seleccionadoC(){
             int quantum = Integer.parseInt(txtQ.getText());
             ro = new RR(colaEspera,quantum,tableV,tableCPU,tableSalida,txtTe,txtTr,txtP);
             fc = new FCFS(colaEspera4,tableV,tableCPU,tableSalida,txtTe,txtTr,txtP);
-             ss = new SJF(colaEspera3,tableV,tableCPU,tableSalida,txtTe,txtTr,txtP);
-              pri = new Prioridad(colaEspera2,tableV,tableCPU,tableSalida,txtTe,txtTr,txtP);
+            ss = new SJF(colaEspera3,tableV,tableCPU,tableSalida,txtTe,txtTr,txtP);
+            pri = new Prioridad(colaEspera2,tableV,tableCPU,tableSalida,txtTe,txtTr,txtP);
             cm = new ColasMulti(pri,ss,fc,ro,tableV,tableCPU,tableSalida,txtTe,txtTr,txtP);
+            cm.setColas(colaEspera,colaEspera2,colaEspera3,colaEspera4);
             bandera = true;
         pro.start();
             menu.setVisible(false);

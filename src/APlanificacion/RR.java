@@ -114,6 +114,7 @@ ArrayList<String>colaEspera;
         data.add(aux);
 
         colaEspera.add(proceso);
+        
         tableV.setItems(data);
         return;
     }
