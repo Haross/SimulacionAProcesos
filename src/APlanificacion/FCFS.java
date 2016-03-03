@@ -122,7 +122,7 @@ public class FCFS extends Thread{
                 System.out.println("t"+t+" -"+tiempoL +"+ "+thick);
                 getTiempoEspera(tiempoL);
                 
-                
+           
                 penalizacion = (double)trespuesta/(double)thick;
                 System.out.println("pen: "+trespuesta+" / "+thick+" = "+penalizacion);
                 sumTr += trespuesta;

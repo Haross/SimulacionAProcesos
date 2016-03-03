@@ -121,7 +121,7 @@ public class Prioridad extends Thread{
                 trespuesta = t - tiempoL + thick;
                 getTiempoEspera(tiempoL);
                 
-                
+                 System.out.println("t"+t+" -"+tiempoL +"+ "+thick);
                 penalizacion = (double)trespuesta/(double)thick;
                 System.out.println("pen: "+trespuesta+" / "+thick+" = "+penalizacion);
                 sumTr += trespuesta;
@@ -169,7 +169,7 @@ public class Prioridad extends Thread{
                 trespuesta = t - tiempoL + thick;
                 getTiempoEspera(tiempoL);
                 
-                
+                 System.out.println("t"+t+" -"+tiempoL +"+ "+thick);
                 penalizacion = (double)trespuesta/(double)thick;
                 System.out.println("pen: "+trespuesta+" / "+thick+" = "+penalizacion);
                 sumTr += trespuesta;

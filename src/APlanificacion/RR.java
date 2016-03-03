@@ -178,6 +178,7 @@ ArrayList<String>colaEspera;
                      tiempoL = Integer.parseInt(split[0]);
                      thick = Integer.parseInt(split[1]);
                     trespuesta = t - tiempoL;  
+                     System.out.println("t"+t+" -"+tiempoL );
                     System.out.println("t: "+t+" -"+tiempoL+ "= "+trespuesta);
                     penalizacion = (double)trespuesta/(double)thick;
                      sumTr += trespuesta;

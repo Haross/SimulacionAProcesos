@@ -61,7 +61,7 @@ public class ColasMulti extends Thread {
         do{
             System.out.println("corriendo");
              while(colaEspera.isEmpty() && colaEspera2.isEmpty()&& colaEspera3.isEmpty()&& colaEspera4.isEmpty()){
-            
+                 System.out.println("vacia");
         }   
             
             if(!colaEspera.isEmpty()){   

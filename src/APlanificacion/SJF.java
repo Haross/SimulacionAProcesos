@@ -121,7 +121,7 @@ public class SJF extends Thread{
 
                 trespuesta = t - tiempoL + thick;
                 getTiempoEspera(tiempoL);
-                
+                 System.out.println("t"+t+" -"+tiempoL +"+ "+thick);
                 
                 penalizacion = (double)trespuesta/(double)thick;
                 System.out.println("pen: "+trespuesta+" / "+thick+" = "+penalizacion);
@@ -172,7 +172,7 @@ public class SJF extends Thread{
                 trespuesta = t - tiempoL + thick;
                 getTiempoEspera(tiempoL);
                 
-                
+                 System.out.println("t"+t+" -"+tiempoL +"+ "+thick);
                 penalizacion = (double)trespuesta/(double)thick;
                 System.out.println("pen: "+trespuesta+" / "+thick+" = "+penalizacion);
                 sumTr += trespuesta;
