@@ -5,6 +5,7 @@
  */
 package APlanificacion;
 
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.scene.control.TableView;
@@ -15,6 +16,7 @@ import static simulador.FXMLDocumentController.colaEspera;
 import static simulador.FXMLDocumentController.data;
 import static simulador.FXMLDocumentController.data1;
 import static simulador.FXMLDocumentController.data2;
+import static simulador.FXMLDocumentController.t;
 import simulador.Row;
 
 /**
@@ -23,7 +25,7 @@ import simulador.Row;
  */
 public class RR extends Thread {
 
-    int t = 0; //almacena todo el tiempo en cpu
+    
     int te = 0;
     double sumTr = 0, sumPe = 0, sumTe = 0;
     int trespuesta = 0;
@@ -33,12 +35,12 @@ public class RR extends Thread {
     TableView tableV, tableCPU, tableSalida;
     TextArea txtTe, txtTr, txtP;
     int quantum;
-
+ArrayList<String>colaEspera;
     public RR() {
 
     }
 
-    public RR(int quantum, TableView tableV, TableView tableCPU, TableView tableSalida, TextArea txtTe, TextArea txtTr, TextArea txtP) {
+    public RR(ArrayList<String>colaEspera,int quantum, TableView tableV, TableView tableCPU, TableView tableSalida, TextArea txtTe, TextArea txtTr, TextArea txtP) {
         this.tableV = tableV;
         this.tableCPU = tableCPU;
         this.tableSalida = tableSalida;
@@ -46,6 +48,7 @@ public class RR extends Thread {
         this.txtTe = txtTe;
         this.txtTr = txtTr;
         this.quantum = quantum;
+        this.colaEspera = colaEspera;
     }
 
     //Pone los elementos en tabla salida
@@ -57,6 +60,7 @@ public class RR extends Thread {
         aux.setTr(tRespuesta);
         aux.setP(penali);
         aux.setOrden(or);
+        aux.setTipo("Sistema");
         data2.add(aux);
         tableSalida.setItems(data2);
 
@@ -93,7 +97,9 @@ public class RR extends Thread {
     private void setTablaCPU(String tL, String th) {
         tableCPU.getItems().clear();
         data1.clear();
-        data1.add(new Row(tL + "", th + ""));
+       Row aux = new Row(tL + "", th + "");
+       aux.setTipo("Sistema");
+        data1.add(aux);
         tableCPU.setItems(data1);
     }
 
@@ -104,6 +110,7 @@ public class RR extends Thread {
         aux.setTe(te);
         aux.setTiempoRestante(trestante);
         aux.setTSali(t);
+        aux.setTipo("Sistema");
         data.add(aux);
 
         colaEspera.add(proceso);
@@ -208,6 +215,90 @@ public class RR extends Thread {
         System.out.println("Hilo terminado");
     }
 
+    public void empezar() {
+
+       
+            String proceso = "";
+            int tRes = 0;
+            boolean completo = true;
+             
+                    
+                String aux = colaEspera.remove(0);               
+                String[] split = aux.split(":");
+                thick = Integer.parseInt(split[1]); //tiempo requerido               
+                int tiempoL = Integer.parseInt(split[0]); //tiempo llegada
+                
+                //tllegada:trequerido:trestante:te:tsalida
+                if(!split[2].equals("N")){
+                 
+                    tiempoL =Integer.parseInt(split[4]);
+                    thick =Integer.parseInt(split[2]);
+                    if(thick > quantum){
+                        tRes = thick-quantum;
+                       proceso+= tiempoL+":"+thick+":"+tRes; 
+                       thick = quantum;
+                       completo = false;
+                    } 
+                  
+                    
+                }else{
+                    if(thick > quantum){
+                         tRes = thick-quantum;
+                       proceso+= tiempoL+":"+thick+":"+tRes; 
+                       thick = quantum;
+                       completo = false;
+                    } 
+                }
+
+                getTiempoEspera(tiempoL);
+                
+                if(!completo){
+                    int teAux = te;
+                    if(!split[3].equals("N"))
+                     teAux = te+Integer.parseInt(split[3]);
+                    proceso+=":"+teAux;
+                    t= t + thick;
+                     proceso+=":"+t;
+                }else{
+                    
+                    if(!split[3].equals("N"))
+                        te = te+Integer.parseInt(split[3]);
+                    System.out.println("te final "+te);
+                    numProceso++;  
+                     t = t+ thick;
+                     proceso+=":"+t;
+                     tiempoL = Integer.parseInt(split[0]);
+                     thick = Integer.parseInt(split[1]);
+                    trespuesta = t - tiempoL;  
+                    System.out.println("t: "+t+" -"+tiempoL+ "= "+trespuesta);
+                    penalizacion = (double)trespuesta/(double)thick;
+                     sumTr += trespuesta;
+                sumPe += penalizacion;
+                sumTe += te;
+                }
+                
+              
+                     cpu.add(aux );
+                    setTablaCPU(split[0],split[1]);
+                    eliminar(split[0],split[1]);
+                
+                 try {
+                Thread.sleep(2000 * thick);
+                if(completo){
+                    tableCPU.getItems().clear();
+                    setTabla(split[0],split[1],te+"",trespuesta+"",penalizacion+"",numProceso+"");
+                }else{
+                    regresar(t+"",split[0],split[1], te+"",tRes+"" , proceso);
+                }
+                
+            } catch (InterruptedException ex) {
+                Logger.getLogger(FCFS.class.getName()).log(Level.SEVERE, null, ex);
+            }      
+                         
+           
+    
+    }
+
     public void setFinales() {
         double aux = (double) sumTe / (double) numProceso;
         txtTe.setText(aux + "");
@@ -218,6 +309,18 @@ public class RR extends Thread {
         aux = (double) sumPe / (double) numProceso;
         System.out.println(aux);
         txtP.setText(aux + "");
+    }
+     public double getTe(){
+        return sumTe;
+    }
+    public double getTr(){
+        return sumTr;
+    }
+    public double getPe(){
+        return sumPe;
+    }
+    public int getNum(){
+        return numProceso;
     }
 
 }

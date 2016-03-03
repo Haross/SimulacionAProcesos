@@ -5,6 +5,7 @@
  */
 package APlanificacion;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Queue;
 import java.util.logging.Level;
@@ -14,17 +15,17 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import static simulador.FXMLDocumentController.bandera;
 import static simulador.FXMLDocumentController.cpu;
-import static simulador.FXMLDocumentController.colaEspera;
 import static simulador.FXMLDocumentController.data;
 import static simulador.FXMLDocumentController.data1;
 import static simulador.FXMLDocumentController.data2;
+import static simulador.FXMLDocumentController.t;
 import simulador.Row;
 /**
  *
  * @author Javier
  */
 public class FCFS extends Thread{
-    int t = 0; //almacena todo el tiempo en cpu
+   
     int te = 0;
     double sumTr=0,sumPe=0,sumTe=0;
     int trespuesta = 0;
@@ -33,16 +34,18 @@ public class FCFS extends Thread{
     double penalizacion = 0;
     TableView tableV,tableCPU,tableSalida;
     TextArea txtTe,txtTr,txtP;
+    ArrayList<String> colaEspera;
     public FCFS(){
         
     }
-   public FCFS(TableView tableV,TableView tableCPU, TableView tableSalida,TextArea txtTe,TextArea  txtTr,TextArea txtP){
+   public FCFS(ArrayList<String> colaEspera,TableView tableV,TableView tableCPU, TableView tableSalida,TextArea txtTe,TextArea  txtTr,TextArea txtP){
        this.tableV = tableV;
        this.tableCPU = tableCPU;
        this.tableSalida = tableSalida;
        this.txtP = txtP;
        this.txtTe = txtTe;
        this.txtTr = txtTr;
+       this.colaEspera = colaEspera;
    }
    //Pone los elementos en tabla salida
    private void setTabla(String tL,String tR,String te,String tRespuesta,String penali,String or){
@@ -54,6 +57,7 @@ public class FCFS extends Thread{
                 aux.setTr(tRespuesta);
                 aux.setP(penali);
                 aux.setOrden(or);
+                aux.setTipo("Lotes");
                 data2.add(aux);
                 tableSalida.setItems(data2);
               
@@ -92,7 +96,9 @@ public class FCFS extends Thread{
      private void setTablaCPU(String tL, String th) {
          tableCPU.getItems().clear();
          data1.clear();
-        data1.add(new Row(tL + "", th + ""));
+         Row aux = new Row(tL + "", th + "");
+         aux.setTipo("Lotes");
+        data1.add(aux);
         tableCPU.setItems(data1);
     }
 
@@ -113,6 +119,7 @@ public class FCFS extends Thread{
                 b = split[1];
 
                 trespuesta = t - tiempoL + thick;
+                System.out.println("t"+t+" -"+tiempoL +"+ "+thick);
                 getTiempoEspera(tiempoL);
                 
                 
@@ -146,6 +153,44 @@ public class FCFS extends Thread{
         }while(bandera);
         System.out.println("Hilo terminado");
     }
+     
+    public void empezar(){
+        String a = " ", b= " ";
+     
+                numProceso++;
+                String aux = colaEspera.remove(0);
+                
+                String[] split = aux.split(":");
+                thick = Integer.parseInt(split[1]); //tiempo requerido
+                
+                int tiempoL = Integer.parseInt(split[0]); //tiempo llegada
+                a = split[0];
+                b = split[1];
+
+                trespuesta = t - tiempoL + thick;
+                System.out.println("t"+t+" -"+tiempoL +"+ "+thick);
+                getTiempoEspera(tiempoL);
+                
+                
+                penalizacion = (double)trespuesta/(double)thick;
+                System.out.println("pen: "+trespuesta+" / "+thick+" = "+penalizacion);
+                sumTr += trespuesta;
+                sumPe += penalizacion;
+                sumTe += te;
+              
+                t = t+ thick;
+                cpu.add(aux );
+                setTablaCPU(a, b);
+                eliminar(a,b);
+                 try {
+                Thread.sleep(2000 * thick);
+                 tableCPU.getItems().clear();
+                 setTabla(a,b,te+"",trespuesta+"",penalizacion+"",numProceso+"");
+            } catch (InterruptedException ex) {
+                Logger.getLogger(FCFS.class.getName()).log(Level.SEVERE, null, ex);
+            }      
+            
+    }
     public void setFinales(){
         double aux = (double)sumTe/(double)numProceso;
         txtTe.setText(aux+"");
@@ -156,6 +201,18 @@ public class FCFS extends Thread{
         aux = (double)sumPe/(double)numProceso;
         System.out.println(aux);
         txtP.setText(aux+"");
+    }
+    public double getTe(){
+        return sumTe;
+    }
+    public double getTr(){
+        return sumTr;
+    }
+    public double getPe(){
+        return sumPe;
+    }
+    public int getNum(){
+        return numProceso;
     }
 
 }

@@ -32,7 +32,7 @@ import javafx.scene.layout.AnchorPane;
  * @author Javier
  */
 public class FXMLDocumentController implements Initializable{
-
+    public static int t = 0;
     public static ArrayList<String> colaEspera = new ArrayList(); //sistema
     public static ArrayList<String> colaEspera2 = new ArrayList(); //interactivos
     public static ArrayList<String> colaEspera3 = new ArrayList(); //edición interactivos
@@ -72,7 +72,7 @@ ColasMulti cm;
             tTipo1.setVisible(false);
             tTipo11.setVisible(false);
             pro = new Procesos(4,tableV); //Se manda 4 para indicar que se genran procesos con prioridad
-            pri = new Prioridad(tableV,tableCPU,tableSalida,txtTe,txtTr,txtP); //se manda tabla para poner datos
+            pri = new Prioridad(colaEspera,tableV,tableCPU,tableSalida,txtTe,txtTr,txtP); //se manda tabla para poner datos
             pri.start();
                 bandera = true;
         pro.start();
@@ -85,12 +85,18 @@ ColasMulti cm;
             pro = new Procesos(5,tableV);
              //validar solo numeros
             int quantum = Integer.parseInt(txtQ.getText());
-            cm = new ColasMulti(quantum,tableV,tableCPU,tableSalida,txtTe,txtTr,txtP);
-            cm.start();
+            ro = new RR(colaEspera,quantum,tableV,tableCPU,tableSalida,txtTe,txtTr,txtP);
+            fc = new FCFS(colaEspera4,tableV,tableCPU,tableSalida,txtTe,txtTr,txtP);
+             ss = new SJF(colaEspera3,tableV,tableCPU,tableSalida,txtTe,txtTr,txtP);
+              pri = new Prioridad(colaEspera2,tableV,tableCPU,tableSalida,txtTe,txtTr,txtP);
+            cm = new ColasMulti(pri,ss,fc,ro,tableV,tableCPU,tableSalida,txtTe,txtTr,txtP);
             bandera = true;
         pro.start();
-        menu.setVisible(false);
+            menu.setVisible(false);
         simulacion.setVisible(true);
+            cm.start();
+         
+    
         } else if (FCFS.isSelected()) {
             tTipo.setVisible(false);
             tPri.setVisible(false);
@@ -99,7 +105,7 @@ ColasMulti cm;
             tTipo11.setVisible(false);
             tPri11.setVisible(false);
             pro = new Procesos(1,tableV);
-            fc = new FCFS(tableV,tableCPU,tableSalida,txtTe,txtTr,txtP);
+            fc = new FCFS(colaEspera,tableV,tableCPU,tableSalida,txtTe,txtTr,txtP);
             fc.start();
                bandera = true;
         pro.start();
@@ -115,7 +121,7 @@ ColasMulti cm;
             pro = new Procesos(2,tableV);
             //validar solo numeros
             int quantum = Integer.parseInt(txtQ.getText());
-             ro = new RR(quantum,tableV,tableCPU,tableSalida,txtTe,txtTr,txtP);
+             ro = new RR(colaEspera,quantum,tableV,tableCPU,tableSalida,txtTe,txtTr,txtP);
               bandera = true;
              ro.start();
               
@@ -131,7 +137,7 @@ ColasMulti cm;
             tPri11.setVisible(false);
             pro = new Procesos(3,tableV);
  
-             ss = new SJF(tableV,tableCPU,tableSalida,txtTe,txtTr,txtP);
+             ss = new SJF(colaEspera,tableV,tableCPU,tableSalida,txtTe,txtTr,txtP);
             ss.start();
                 bandera = true;
         pro.start();
