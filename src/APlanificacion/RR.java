@@ -12,7 +12,6 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import static simulador.FXMLDocumentController.bandera;
 import static simulador.FXMLDocumentController.cpu;
-import static simulador.FXMLDocumentController.colaEspera;
 import static simulador.FXMLDocumentController.data;
 import static simulador.FXMLDocumentController.data1;
 import static simulador.FXMLDocumentController.data2;
@@ -85,10 +84,10 @@ ArrayList<String>colaEspera;
 
     private String getTiempoEspera(int tiempoL) {
         te = t - tiempoL;
-        System.out.println("Metetod getTE:"+te);
+        //System.out.println("Metetod getTE:"+te);
         if (te <= 0) {
             te = 0;
-            System.out.println("negativo"+te);
+            //System.out.println("negativo"+te);
             return 0 +""; 
         }
         return te + "";
@@ -104,17 +103,16 @@ ArrayList<String>colaEspera;
     }
 
     private void regresar(String t,String tL, String tR, String te, String trestante, String proceso) {
-        System.out.println("Proceso regresado a espera");
-        System.out.println(proceso);
+        //System.out.println("Proceso regresado a espera");
+        //System.out.println(proceso);
         Row aux = new Row(tL, tR);
         aux.setTe(te);
         aux.setTiempoRestante(trestante);
         aux.setTSali(t);
         aux.setTipo("Sistema");
         data.add(aux);
-
+        //System.out.println("Se regreso "+tL +" "+tR);
         colaEspera.add(proceso);
-        
         tableV.setItems(data);
         return;
     }
@@ -131,11 +129,12 @@ ArrayList<String>colaEspera;
             boolean completo = true;
             if(!colaEspera.isEmpty()){       
                     
-                String aux = colaEspera.remove(0);               
+                String aux = colaEspera.remove(0);     
+                //System.out.println("aux sacada"+aux);
                 String[] split = aux.split(":");
                 thick = Integer.parseInt(split[1]); //tiempo requerido               
                 int tiempoL = Integer.parseInt(split[0]); //tiempo llegada
-                
+                proceso = tiempoL+":"+thick+":";
                 //tllegada:trequerido:trestante:te:tsalida
                 if(!split[2].equals("N")){
                  
@@ -143,7 +142,7 @@ ArrayList<String>colaEspera;
                     thick =Integer.parseInt(split[2]);
                     if(thick > quantum){
                         tRes = thick-quantum;
-                       proceso+= tiempoL+":"+thick+":"+tRes; 
+                       proceso+= tRes; 
                        thick = quantum;
                        completo = false;
                     } 
@@ -152,7 +151,7 @@ ArrayList<String>colaEspera;
                 }else{
                     if(thick > quantum){
                          tRes = thick-quantum;
-                       proceso+= tiempoL+":"+thick+":"+tRes; 
+                       proceso+= tRes; 
                        thick = quantum;
                        completo = false;
                     } 
@@ -171,15 +170,15 @@ ArrayList<String>colaEspera;
                     
                     if(!split[3].equals("N"))
                         te = te+Integer.parseInt(split[3]);
-                    System.out.println("te final "+te);
+                    //System.out.println("te final "+te);
                     numProceso++;  
                      t = t+ thick;
                      proceso+=":"+t;
                      tiempoL = Integer.parseInt(split[0]);
                      thick = Integer.parseInt(split[1]);
-                    trespuesta = t - tiempoL;  
-                     System.out.println("t"+t+" -"+tiempoL );
-                    System.out.println("t: "+t+" -"+tiempoL+ "= "+trespuesta);
+                    trespuesta = thick +te;  
+                     //System.out.println("t"+t+" -"+tiempoL );
+                    //System.out.println("t: "+t+" -"+tiempoL+ "= "+trespuesta);
                     penalizacion = (double)trespuesta/(double)thick;
                      sumTr += trespuesta;
                 sumPe += penalizacion;
@@ -187,34 +186,51 @@ ArrayList<String>colaEspera;
                 }
                 
               
-                     cpu.add(aux );
+                    cpu.add(aux );
                     setTablaCPU(split[0],split[1]);
                     eliminar(split[0],split[1]);
+                    //System.out.println("Eliminar: "+split[0]+"  "+split[1]);
                 
                  try {
-                Thread.sleep(2000 * thick);
-                if(completo){
-                    tableCPU.getItems().clear();
-                    setTabla(split[0],split[1],te+"",trespuesta+"",penalizacion+"",numProceso+"");
-                }else{
-                    regresar(t+"",split[0],split[1], te+"",tRes+"" , proceso);
-                }
+                     if(bandera){
+                Thread.sleep(1000 * thick);}
+                
                 
             } catch (InterruptedException ex) {
                 Logger.getLogger(FCFS.class.getName()).log(Level.SEVERE, null, ex);
-            }      
+            }   
+                 if(completo){
+                    tableCPU.getItems().clear();
+                    setTabla(split[0],split[1],te+"",trespuesta+"",penalizacion+"",numProceso+"");
+                }else{
+                     //System.out.println("Proceso regresado a espera");
+        System.out.println(proceso);
+        Row aux2 = new Row(split[0]+"", split[1]);
+        aux2.setTe(te+"");
+        aux2.setTiempoRestante(tRes+"");
+        aux2.setTSali(t+"");
+        aux2.setTipo("Sistema");
+        data.add(aux2);
+                     System.out.println("proceso:"+proceso);
+        colaEspera.add(proceso);
+        tableV.setItems(data);
+                }
             }else{
                  try {
-                Thread.sleep(2000 * thick);
+                if(bandera)
+                Thread.sleep(1000 * thick);
               
             } catch (InterruptedException ex) {
                 Logger.getLogger(FCFS.class.getName()).log(Level.SEVERE, null, ex);
             }      
             }             
            
-            
-        }while(bandera);
-        System.out.println("Hilo terminado");
+             tableV.setItems(data);
+        }while(bandera || !colaEspera.isEmpty());
+       
+        setFinales();
+       
+        //System.out.println("Hilo terminado RR");
     }
 
     public void empezar() {
@@ -229,7 +245,7 @@ ArrayList<String>colaEspera;
                 String[] split = aux.split(":");
                 thick = Integer.parseInt(split[1]); //tiempo requerido               
                 int tiempoL = Integer.parseInt(split[0]); //tiempo llegada
-                
+                proceso = tiempoL+":"+thick+":";
                 //tllegada:trequerido:trestante:te:tsalida
                 if(!split[2].equals("N")){
                  
@@ -237,7 +253,7 @@ ArrayList<String>colaEspera;
                     thick =Integer.parseInt(split[2]);
                     if(thick > quantum){
                         tRes = thick-quantum;
-                       proceso+= tiempoL+":"+thick+":"+tRes; 
+                       proceso+= tRes; 
                        thick = quantum;
                        completo = false;
                     } 
@@ -246,7 +262,7 @@ ArrayList<String>colaEspera;
                 }else{
                     if(thick > quantum){
                          tRes = thick-quantum;
-                       proceso+= tiempoL+":"+thick+":"+tRes; 
+                       proceso+= tRes; 
                        thick = quantum;
                        completo = false;
                     } 
@@ -265,14 +281,14 @@ ArrayList<String>colaEspera;
                     
                     if(!split[3].equals("N"))
                         te = te+Integer.parseInt(split[3]);
-                    System.out.println("te final "+te);
+                    //System.out.println("te final "+te);
                     numProceso++;  
                      t = t+ thick;
                      proceso+=":"+t;
                      tiempoL = Integer.parseInt(split[0]);
                      thick = Integer.parseInt(split[1]);
-                    trespuesta = t - tiempoL;  
-                    System.out.println("t: "+t+" -"+tiempoL+ "= "+trespuesta);
+                      trespuesta = thick +te;
+                    //System.out.println("t: "+t+" -"+tiempoL+ "= "+trespuesta);
                     penalizacion = (double)trespuesta/(double)thick;
                      sumTr += trespuesta;
                 sumPe += penalizacion;
@@ -285,12 +301,25 @@ ArrayList<String>colaEspera;
                     eliminar(split[0],split[1]);
                 
                  try {
-                Thread.sleep(2000 * thick);
+                     if(bandera)
+                Thread.sleep(1000 * thick);
                 if(completo){
                     tableCPU.getItems().clear();
                     setTabla(split[0],split[1],te+"",trespuesta+"",penalizacion+"",numProceso+"");
                 }else{
-                    regresar(t+"",split[0],split[1], te+"",tRes+"" , proceso);
+                    //regresar(t+"",split[0],split[1], te+"",tRes+"" , proceso);
+                    //System.out.println("Proceso regresado a espera");
+        //System.out.println(proceso);
+        Row aux2 = new Row(split[0]+"", split[1]);
+        aux2.setTe(te+"");
+        aux2.setTiempoRestante(tRes+"");
+        aux2.setTSali(t+"");
+        aux2.setTipo("Sistema");
+        data.add(aux2);
+
+        colaEspera.add(proceso);
+        tableV.setItems(data);
+   
                 }
                 
             } catch (InterruptedException ex) {
@@ -302,14 +331,15 @@ ArrayList<String>colaEspera;
     }
 
     public void setFinales() {
+        
         double aux = (double) sumTe / (double) numProceso;
         txtTe.setText(aux + "");
-        System.out.println("tr " + sumTr);
+        //System.out.println("tr " + sumTr);
         aux = (double) sumTr / (double) numProceso;
         txtTr.setText(aux + "");
 
         aux = (double) sumPe / (double) numProceso;
-        System.out.println(aux);
+        //System.out.println(aux);
         txtP.setText(aux + "");
     }
      public double getTe(){

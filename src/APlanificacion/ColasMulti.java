@@ -33,7 +33,7 @@ public class ColasMulti extends Thread {
     SJF sjf;
     FCFS fcfs;
     RR robin;
-    ArrayList<String> colaEspera,colaEspera2,colaEspera3,colaEspera4;
+   static ArrayList<String> colaEspera,colaEspera2,colaEspera3,colaEspera4;
     public ColasMulti(){
         
     }
@@ -62,6 +62,8 @@ public class ColasMulti extends Thread {
             System.out.println("corriendo");
              while(colaEspera.isEmpty() && colaEspera2.isEmpty()&& colaEspera3.isEmpty()&& colaEspera4.isEmpty()){
                  System.out.println("vacia");
+                 if(!bandera)
+                     return;
         }   
             
             if(!colaEspera.isEmpty()){   
@@ -78,10 +80,12 @@ public class ColasMulti extends Thread {
                 fcfs.empezar();
             }             
               
-        }while(bandera);
+        }while(bandera || !colaEspera.isEmpty() || !colaEspera2.isEmpty()|| !colaEspera3.isEmpty()|| !colaEspera4.isEmpty());
+       setFinales();
         System.out.println("Hilo terminado");
     }
     public void setFinales(){
+     
         sumTe = sjf.getTe() + robin.getTe() + fcfs.getTe() + pri.getTe();
         sumTr = sjf.getTr() + robin.getTr() + fcfs.getTr() + pri.getTr();
         sumPe = sjf.getPe() + robin.getPe() + fcfs.getPe() + pri.getPe();

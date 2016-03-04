@@ -141,7 +141,7 @@ public class Procesos extends Thread {
                 tableV.setItems(data);
             }
             try {
-                Thread.sleep(2000);
+                Thread.sleep(1000);
                 cont++;
             } catch (InterruptedException ex) {
                 Logger.getLogger(Procesos.class.getName()).log(Level.SEVERE, null, ex);

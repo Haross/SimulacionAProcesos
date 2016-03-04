@@ -35,6 +35,7 @@ public class FCFS extends Thread{
     TableView tableV,tableCPU,tableSalida;
     TextArea txtTe,txtTr,txtP;
     ArrayList<String> colaEspera;
+    boolean banderita = false;
     public FCFS(){
         
     }
@@ -118,10 +119,11 @@ public class FCFS extends Thread{
                 a = split[0];
                 b = split[1];
 
-                trespuesta = t - tiempoL + thick;
-                System.out.println("t"+t+" -"+tiempoL +"+ "+thick);
-                getTiempoEspera(tiempoL);
                 
+                getTiempoEspera(tiempoL);
+                      t = t+ thick;
+                 trespuesta = thick +te;  
+            
            
                 penalizacion = (double)trespuesta/(double)thick;
                 System.out.println("pen: "+trespuesta+" / "+thick+" = "+penalizacion);
@@ -129,12 +131,13 @@ public class FCFS extends Thread{
                 sumPe += penalizacion;
                 sumTe += te;
               
-                t = t+ thick;
+                
                 cpu.add(aux );
                 setTablaCPU(a, b);
                 eliminar(a,b);
                  try {
-                Thread.sleep(2000 * thick);
+                      if(bandera)
+                Thread.sleep(1000 * thick);
                  tableCPU.getItems().clear();
                  setTabla(a,b,te+"",trespuesta+"",penalizacion+"",numProceso+"");
             } catch (InterruptedException ex) {
@@ -142,16 +145,26 @@ public class FCFS extends Thread{
             }      
             }else{
                  try {
-                Thread.sleep(2000 * thick);
+                 if(bandera){
+                     System.out.println("");
+                     Thread.sleep(1000 * thick);
+                     
+                 }else{
+                     System.out.println("Bandera "); 
+                 }
+                
               
             } catch (InterruptedException ex) {
                 Logger.getLogger(FCFS.class.getName()).log(Level.SEVERE, null, ex);
             }      
             }             
-           
+           banderita = true;
             
-        }while(bandera);
-        System.out.println("Hilo terminado");
+        }while(bandera || !colaEspera.isEmpty());
+        setFinales();
+        System.out.println("bandera;:"+ bandera);
+        System.out.println("Cola:"+colaEspera.isEmpty());
+        System.out.println("Hilo terminado FCFS");
     }
      
     public void empezar(){
@@ -167,11 +180,12 @@ public class FCFS extends Thread{
                 a = split[0];
                 b = split[1];
 
-                trespuesta = t - tiempoL + thick;
-                System.out.println("t"+t+" -"+tiempoL +"+ "+thick);
+                
                 getTiempoEspera(tiempoL);
                 
-                
+                      t = t+ thick;
+                 trespuesta = thick +te;  
+            
                 penalizacion = (double)trespuesta/(double)thick;
                 System.out.println("pen: "+trespuesta+" / "+thick+" = "+penalizacion);
                 sumTr += trespuesta;
@@ -183,7 +197,8 @@ public class FCFS extends Thread{
                 setTablaCPU(a, b);
                 eliminar(a,b);
                  try {
-                Thread.sleep(2000 * thick);
+                       if(bandera)
+                Thread.sleep(1000 * thick);
                  tableCPU.getItems().clear();
                  setTabla(a,b,te+"",trespuesta+"",penalizacion+"",numProceso+"");
             } catch (InterruptedException ex) {
@@ -192,6 +207,9 @@ public class FCFS extends Thread{
             
     }
     public void setFinales(){
+        System.out.println("set finales");
+     
+     // Thread.sleep(6000);
         double aux = (double)sumTe/(double)numProceso;
         txtTe.setText(aux+"");
         System.out.println("tr "+sumTr);

@@ -118,22 +118,24 @@ public class Prioridad extends Thread{
                 a = split[0];
                 b = split[1];
                 c = split[2];
-                trespuesta = t - tiempoL + thick;
+               
                 getTiempoEspera(tiempoL);
-                
-                 System.out.println("t"+t+" -"+tiempoL +"+ "+thick);
+                t = t+ thick;
+                 trespuesta = thick +te;  
+            
                 penalizacion = (double)trespuesta/(double)thick;
-                System.out.println("pen: "+trespuesta+" / "+thick+" = "+penalizacion);
+                
                 sumTr += trespuesta;
                 sumPe += penalizacion;
                 sumTe += te;
               
-                t = t+ thick;
+                
                 cpu.add(aux );
                 setTablaCPU(b, c, a);
                 eliminar(b,c,a);
                  try {
-                Thread.sleep(2000 * thick);
+                     if(bandera)
+                Thread.sleep(1000 * thick);
                  tableCPU.getItems().clear();
                  setTabla(a,b,c,te+"",trespuesta+"",penalizacion+"",numProceso+"");
             } catch (InterruptedException ex) {
@@ -141,7 +143,8 @@ public class Prioridad extends Thread{
             }      
             }else{
                  try {
-                Thread.sleep(2000 * thick);
+                     if(bandera)
+                Thread.sleep(1000 * thick);
               
             } catch (InterruptedException ex) {
                 Logger.getLogger(Prioridad.class.getName()).log(Level.SEVERE, null, ex);
@@ -149,8 +152,9 @@ public class Prioridad extends Thread{
             }             
            
             
-        }while(bandera);
-        System.out.println("Hilo terminado");
+        }while(bandera || !colaEspera.isEmpty());
+        setFinales();
+        System.out.println("Hilo terminado Prioridad");
     }
     
     public void empezar(){
@@ -166,9 +170,11 @@ public class Prioridad extends Thread{
                 a = split[0];
                 b = split[1];
                 c = split[2];
-                trespuesta = t - tiempoL + thick;
+               
                 getTiempoEspera(tiempoL);
-                
+                      t = t+ thick;
+                 trespuesta = thick +te;  
+            
                  System.out.println("t"+t+" -"+tiempoL +"+ "+thick);
                 penalizacion = (double)trespuesta/(double)thick;
                 System.out.println("pen: "+trespuesta+" / "+thick+" = "+penalizacion);
@@ -176,12 +182,13 @@ public class Prioridad extends Thread{
                 sumPe += penalizacion;
                 sumTe += te;
               
-                t = t+ thick;
+               
                 cpu.add(aux );
                 setTablaCPU(b, c, a);
                 eliminar(b,c,a);
                  try {
-                Thread.sleep(2000 * thick);
+                       if(bandera)
+                Thread.sleep(1000 * thick);
                  tableCPU.getItems().clear();
                  setTabla(a,b,c,te+"",trespuesta+"",penalizacion+"",numProceso+"");
             } catch (InterruptedException ex) {
@@ -190,6 +197,7 @@ public class Prioridad extends Thread{
            
     }
     public void setFinales(){
+    
         double aux = (double)sumTe/(double)numProceso;
         txtTe.setText(aux+"");
         System.out.println("tr "+sumTr);

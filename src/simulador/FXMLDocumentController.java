@@ -34,20 +34,20 @@ import javafx.scene.text.Text;
  */
 public class FXMLDocumentController implements Initializable{
     public static int t = 0;
-    public static ArrayList<String> colaEspera = new ArrayList(); //sistema
-    public static ArrayList<String> colaEspera2 = new ArrayList(); //interactivos
-    public static ArrayList<String> colaEspera3 = new ArrayList(); //edición interactivos
-    public static ArrayList<String> colaEspera4 = new ArrayList(); //lotes
-    public static ArrayList<String> cpu = new ArrayList();
-    public static ObservableList<Row> data = FXCollections.observableArrayList();
-    public static ObservableList<Row> data1 = FXCollections.observableArrayList();
-    public static ObservableList<Row> data2 = FXCollections.observableArrayList();
+   volatile public static ArrayList<String> colaEspera = new ArrayList(); //sistema
+   volatile public static ArrayList<String> colaEspera2 = new ArrayList(); //interactivos
+   volatile public static ArrayList<String> colaEspera3 = new ArrayList(); //edición interactivos
+   volatile public static ArrayList<String> colaEspera4 = new ArrayList(); //lotes
+  volatile  public static ArrayList<String> cpu = new ArrayList();
+  volatile  public static ObservableList<Row> data = FXCollections.observableArrayList();
+  volatile  public static ObservableList<Row> data1 = FXCollections.observableArrayList();
+   volatile public static ObservableList<Row> data2 = FXCollections.observableArrayList();
     Procesos pro ;
     public static boolean bandera = false;
     @FXML 
     private Text txt;
     @FXML
-    private TextArea txtTe,txtTr,txtP;
+    private TextArea txtTe,txtTr,txtP,txtReloj;
     @FXML
     private TextField txtQ;
     @FXML
@@ -97,10 +97,7 @@ private void seleccionadoC(){
         menu.setVisible(false);
         simulacion.setVisible(true);
         } else if (CM.isSelected()) {
-            
-            tPri.setVisible(false);
-            tPri11.setVisible(false);
-            tPri1.setVisible(false);
+            orden.setVisible(false);
             pro = new Procesos(5,tableV);
              //validar solo numeros
 
@@ -165,7 +162,8 @@ private void seleccionadoC(){
         menu.setVisible(false);
         simulacion.setVisible(true);
         }
-  
+        Reloj re = new Reloj(txtReloj);
+        re.start();
 
     }
 
@@ -173,16 +171,16 @@ private void seleccionadoC(){
     public void stop(ActionEvent a) {
         bandera = !bandera;
         if (PRI.isSelected()) {
-            pri.setFinales();
+           
         } else if (CM.isSelected()) {
-           cm.setFinales();
+           
         } else if (FCFS.isSelected()) {           
-            fc.setFinales();        
+                
         } else if (RR.isSelected()) {         
-            ro.setFinales();
+            
              
         } else if (SJF.isSelected()) {         
-            ss.setFinales();
+            
         }
        
     }
