@@ -192,7 +192,7 @@ public class FCFS extends Thread{
                 sumPe += penalizacion;
                 sumTe += te;
               
-                t = t+ thick;
+             
                 cpu.add(aux );
                 setTablaCPU(a, b);
                 eliminar(a,b);
