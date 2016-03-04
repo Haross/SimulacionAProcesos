@@ -6,6 +6,7 @@ import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextArea;
 import static simulador.FXMLDocumentController.colaEspera;
 import static simulador.FXMLDocumentController.colaEspera2;
 import static simulador.FXMLDocumentController.colaEspera3;
@@ -19,7 +20,7 @@ import simulador.Row;
  * @author Javier
  */
 public class Procesos extends Thread {
-
+    TextArea txtR;
     TableView tableV;
     //final double probabilidad = 0.9502;
     final double probabilidad = 0.7;
@@ -31,7 +32,9 @@ public class Procesos extends Thread {
         algoritmo = opc;
         this.tableV = tableV;
     }
-
+    public void setR(TextArea txtR){
+        this.txtR = txtR;
+    }
     public int getThick() {
         return randInt(1, 10);
     }
@@ -130,17 +133,24 @@ public class Procesos extends Thread {
     @Override
     public void run() {
         Random rand = new Random();
+        int aux = 0;
+        boolean on = false;
         do {
             Double x = rand.nextDouble();
             //System.out.println("x:"+x);
             x = truncate(x, 4); //para tener numeros de 4 decimales
             if (x <= probabilidad) {
+                on = true;
                 proceso = setDatos(x);
                 //System.out.println("Proceso creado: "+proceso);      
             }else{
                 tableV.setItems(data);
             }
             try {
+                if(on){
+                    aux++;
+                    txtR.setText(aux+"");
+                            }
                 Thread.sleep(1000);
                 cont++;
             } catch (InterruptedException ex) {
