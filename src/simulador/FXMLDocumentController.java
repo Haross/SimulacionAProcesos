@@ -90,6 +90,7 @@ private void seleccionadoC(){
             tTipo1.setVisible(false);
             tTipo11.setVisible(false);
             pro = new Procesos(4,tableV); //Se manda 4 para indicar que se genran procesos con prioridad
+            pro.setR(txtReloj);
             pri = new Prioridad(colaEspera,tableV,tableCPU,tableSalida,txtTe,txtTr,txtP); //se manda tabla para poner datos
             pri.start();
                 bandera = true;
@@ -99,7 +100,7 @@ private void seleccionadoC(){
         } else if (CM.isSelected()) {
             orden.setVisible(false);
             pro = new Procesos(5,tableV);
-             //validar solo numeros
+           pro.setR(txtReloj);
 
             int quantum = Integer.parseInt(txtQ.getText());
             ro = new RR(colaEspera,quantum,tableV,tableCPU,tableSalida,txtTe,txtTr,txtP);
@@ -123,6 +124,7 @@ private void seleccionadoC(){
             tTipo11.setVisible(false);
             tPri11.setVisible(false);
             pro = new Procesos(1,tableV);
+            pro.setR(txtReloj);
             fc = new FCFS(colaEspera,tableV,tableCPU,tableSalida,txtTe,txtTr,txtP);
             fc.start();
                bandera = true;
@@ -137,7 +139,7 @@ private void seleccionadoC(){
             tTipo11.setVisible(false);
             tPri11.setVisible(false);
             pro = new Procesos(2,tableV);
-            //validar solo numeros
+            pro.setR(txtReloj);
             int quantum = Integer.parseInt(txtQ.getText());
              ro = new RR(colaEspera,quantum,tableV,tableCPU,tableSalida,txtTe,txtTr,txtP);
               bandera = true;
@@ -154,7 +156,7 @@ private void seleccionadoC(){
             tTipo11.setVisible(false);
             tPri11.setVisible(false);
             pro = new Procesos(3,tableV);
- 
+ pro.setR(txtReloj);
              ss = new SJF(colaEspera,tableV,tableCPU,tableSalida,txtTe,txtTr,txtP);
             ss.start();
                 bandera = true;
@@ -162,8 +164,8 @@ private void seleccionadoC(){
         menu.setVisible(false);
         simulacion.setVisible(true);
         }
-        Reloj re = new Reloj(txtReloj);
-        re.start();
+        
+     
 
     }
 

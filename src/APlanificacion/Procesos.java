@@ -82,22 +82,27 @@ public class Procesos extends Thread {
         int th = getThick();
         switch (algoritmo) {
             case 1: //FCFS
+                
                 setTabla(tL, th);
                 proceso = tL + ":" + th;
+                System.out.println("proceso FCFS");
                 break;
             case 2: //RR
                 setTabla(tL, th);
                 proceso = tL + ":" + th+":N:N:N";
                 colaEspera.add(proceso);
+                System.out.println("proceso RR");
                 return proceso;
             case 3: //SJF
                 setTabla(tL, th);
                 proceso = th + ":" + tL;
+                System.out.println("proceso SJF");
                 break;
             case 4: //Prioridad
                 int prioridad = getPrioridad();
                 setTabla(tL, th, prioridad);
                 proceso = prioridad + ":" + tL + ":" + th;
+                System.out.println("proceso Pri");
                 break;
             case 5:
                 Random rand = new Random();
@@ -123,6 +128,7 @@ public class Procesos extends Thread {
                     
                     colaEspera4.add(proceso);
                 }
+                System.out.println("proceso colas");
                 return proceso;
         }
         colaEspera.add(proceso);
@@ -141,6 +147,7 @@ public class Procesos extends Thread {
             x = truncate(x, 4); //para tener numeros de 4 decimales
             if (x <= probabilidad) {
                 on = true;
+                System.out.println("Creacion de proceso");
                 proceso = setDatos(x);
                 //System.out.println("Proceso creado: "+proceso);      
             }else{

@@ -15,26 +15,13 @@ import javafx.scene.control.TextArea;
  *
  * @author Javier
  */
-public class Reloj extends Thread {
+public class Reloj{
     TextArea txtA;
     int cont = 0;
     Reloj(TextArea txtA){
         this.txtA = txtA;
     }
-    @Override
-    public void run(){
-        do{
-            cont++;
-            txtA.setText(cont+"");
-                
-            try {
-                Thread.sleep(1020);
-            } catch (InterruptedException ex) {
-                Logger.getLogger(Reloj.class.getName()).log(Level.SEVERE, null, ex);
-            }
-                     
-                
-        }while(bandera);
-        
+    public void setR(int c){
+        txtA.setText(c+"");
     }
 }
